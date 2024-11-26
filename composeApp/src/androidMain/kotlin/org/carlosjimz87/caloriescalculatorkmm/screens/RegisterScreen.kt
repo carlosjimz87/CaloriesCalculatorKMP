@@ -12,32 +12,38 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.carlosjimz87.caloriescalculatorkmm.R
-import org.carlosjimz87.caloriescalculatorkmm.composables.CountryFlagIcon
+import org.carlosjimz87.caloriescalculatorkmm.composables.CustomOutlinedTextField
 import org.carlosjimz87.caloriescalculatorkmm.composables.DotsIndicator
 import org.carlosjimz87.caloriescalculatorkmm.composables.OutlinedCustomButton
+import org.carlosjimz87.caloriescalculatorkmm.composables.PhoneEditor
 import org.carlosjimz87.caloriescalculatorkmm.theme.DarkGreen
+import org.carlosjimz87.caloriescalculatorkmm.utils.flagFromCountryCode
 
 @Composable
 fun RegisterScreen(modifier: Modifier = Modifier) {
 
     val context = LocalContext.current
+    var countryCode by remember { mutableStateOf("+1") }
+    var phoneNumber by remember { mutableStateOf("") }
+
+
     Card(
         modifier = modifier
             .fillMaxSize()
@@ -101,24 +107,19 @@ fun RegisterScreen(modifier: Modifier = Modifier) {
                     .padding(horizontal = 16.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                OutlinedTextField(
+
+                CustomOutlinedTextField(
                     value = "",
                     onValueChange = {},
-                    label = { Text("Email") },
-                    modifier = Modifier.fillMaxWidth()
+                    label = "Email"
                 )
 
-                OutlinedTextField(
-                    value = "",
-                    onValueChange = {},
-                    label = { Text("Phone") },
-                    leadingIcon = {
-                        CountryFlagIcon(
-                            resource = R.drawable.ic_flag_us,
-                            desc = "US"
-                        )
-                    },
-                    modifier = Modifier.fillMaxWidth()
+                PhoneEditor(
+                    flagResource = flagFromCountryCode(countryCode), // Replace with your flag resource
+                    countryCode = countryCode,
+                    onCountryCodeChange = { countryCode = it },
+                    phoneNumber = phoneNumber,
+                    onPhoneNumberChange = { phoneNumber = it }
                 )
             }
 
