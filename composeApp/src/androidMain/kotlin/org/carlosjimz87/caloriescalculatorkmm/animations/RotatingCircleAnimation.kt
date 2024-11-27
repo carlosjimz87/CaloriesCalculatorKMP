@@ -21,27 +21,31 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.withTransform
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.carlosjimz87.caloriescalculatorkmm.R
-import org.carlosjimz87.caloriescalculatorkmm.utils.toBitmap
+import org.carlosjimz87.caloriescalculatorkmm.theme.Green
+import org.carlosjimz87.caloriescalculatorkmm.utils.drawableToImageBitmap
 import kotlin.math.cos
 import kotlin.math.sin
 
 @Composable
 fun RotatingCircleAnimation(
     modifier: Modifier = Modifier,
-    backgroundColor: Color = Color(0xFFBFFFD1), // Default Green
-    rotationDurationMillis: Int = 2000 // Time per full rotation
+    backgroundColor: Color = Green, // Default Green
+    rotationDurationMillis: Int = 2000, // Time per full rotation
+    bigDishSize : Float = 270f,
+    smallDishSize : Float = 140f
 ) {
-
+    val context = LocalContext.current
     val images = listOf(
-        painterResource(id = R.drawable.mushrooms).toBitmap(),
-        painterResource(id = R.drawable.spaguettis).toBitmap(),
-        painterResource(id = R.drawable.salad).toBitmap(),
-        painterResource(id = R.drawable.squids).toBitmap()
+        drawableToImageBitmap(context, R.drawable.mushrooms),
+        drawableToImageBitmap(context, R.drawable.spaguettis),
+        drawableToImageBitmap(context, R.drawable.salad),
+        drawableToImageBitmap(context, R.drawable.squids)
     )
+
 
     val infiniteTransition = rememberInfiniteTransition(label = "infiniteRotation")
     val rotationAngle by infiniteTransition.animateFloat(
@@ -68,49 +72,35 @@ fun RotatingCircleAnimation(
             val radius = size.minDimension / 2f
             val center = Offset(size.width / 2, size.height / 2)
 
-            // Draw silhouettes (placeholders between dish images)
-            drawSilhouettes(center, radius)
-
             // Draw dish images
-            drawDishImages(images, center, radius)
+            drawDishImages(bigDishSize, smallDishSize, images, center, radius)
         }
     }
 }
 
-fun DrawScope.drawSilhouettes(center: Offset, radius: Float) {
-    val silhouetteColor = Color(0xFFD4E157) // Lighter Green
-    val positions = listOf(45f, 135f, 225f, 315f) // Angles for silhouettes
-
-    positions.forEach { angle ->
-        val radians = Math.toRadians(angle.toDouble())
-        val x = center.x + radius * 0.7f * cos(radians).toFloat()
-        val y = center.y + radius * 0.7f * sin(radians).toFloat()
-
-        drawCircle(
-            color = silhouetteColor,
-            radius = 20.dp.toPx(),
-            center = Offset(x, y)
-        )
-    }
-}
-
-fun DrawScope.drawDishImages(images: List<ImageBitmap>, center: Offset, radius: Float) {
-    // Load the images as ImageBitmap
-
-    val quadrants = listOf(0f, 90f, 180f, 270f) // Angles for dish images
+fun DrawScope.drawDishImages(
+    bigDishSize: Float,
+    smallDishSize: Float,
+    images: List<ImageBitmap>,
+    center: Offset,
+    radius: Float
+) {
+    val quadrants = listOf(0f, 90f, 180f, 270f) // Angles for fixed quadrant positions
+    val radiusFactor = 0.8f // Move the dishes further from the center
+    val globalOffset = Offset(-30.dp.toPx(), -50.dp.toPx()) // Move everything up-left
 
     quadrants.forEachIndexed { index, angle ->
         val radians = Math.toRadians(angle.toDouble())
-        val x = center.x + radius * 0.9f * cos(radians).toFloat()
-        val y = center.y + radius * 0.9f * sin(radians).toFloat()
+        val x = center.x + radius * radiusFactor * cos(radians).toFloat() + globalOffset.x
+        val y = center.y + radius * radiusFactor * sin(radians).toFloat() + globalOffset.y
 
         // Set image size (big for even indices, small for odd indices)
-        val imageSize = if (index % 2 == 0) 50.dp.toPx() else 25.dp.toPx()
+        val imageSize = if (index % 2 == 0) bigDishSize.dp.toPx() else smallDishSize.dp.toPx()
         val scaleFactor = imageSize / images[index].width
 
-        // Scale the image before drawing
+        // Draw each dish image at a fixed quadrant position
         withTransform({
-            translate(left = x - imageSize / 2, top = y - imageSize / 2) // Positioning
+            translate(left = x - imageSize / 2, top = y - imageSize / 2) // Center the image
             scale(scaleFactor, scaleFactor) // Scale the image
         }) {
             drawImage(images[index])
