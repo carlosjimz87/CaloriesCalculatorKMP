@@ -15,9 +15,11 @@ import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.graphics.drawscope.withTransform
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntSize
+import androidx.compose.ui.unit.dp
 import org.carlosjimz87.caloriescalculatorkmm.R
 import kotlin.math.sqrt
 import kotlin.random.Random
@@ -65,6 +67,22 @@ fun DrawScope.drawImageOnCanvas(
             colorFilter = colorTint?.let { ColorFilter.tint(it) },
         )
     }
+}
+
+/**
+ * Calculates the size needed for the rotating tablecloth to cover the entire screen,
+ * including during rotation.
+ */
+@Composable
+fun calculateMaxRotationSize(): Dp {
+    val screenWidthDp = LocalConfiguration.current.screenWidthDp.dp
+    val screenHeightDp = LocalConfiguration.current.screenHeightDp.dp
+
+    // Calculate the diagonal of the screen (largest possible dimension)
+    val diagonalDp = sqrt(screenWidthDp.value * screenWidthDp.value + screenHeightDp.value * screenHeightDp.value)
+
+    // Add a buffer to ensure full coverage during rotation
+    return (diagonalDp * 1.8f).dp // Add 20% buffer for safety
 }
 
 fun ClosedFloatingPointRange<Float>.random(): Float =
