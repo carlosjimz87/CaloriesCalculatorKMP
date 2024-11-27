@@ -78,3 +78,5 @@ A **Kotlin Multiplatform Project (KMP)** designed to help users track their dail
 - [ ] Implement image capture with camera.
 - [ ] Integrate some AI tools to calculate calories from image.
 - [ ] Provide a nutritional report and scores.
+
+Thanks to [**@Tubik**](https://dribbble.com/Tubik) from **Dribbble** for the design inspiration 🎨.
