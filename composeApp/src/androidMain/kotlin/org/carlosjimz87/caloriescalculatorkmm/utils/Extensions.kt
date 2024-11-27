@@ -7,9 +7,13 @@ import androidx.annotation.DrawableRes
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
+import androidx.compose.ui.graphics.drawscope.withTransform
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.IntSize
 import org.carlosjimz87.caloriescalculatorkmm.R
@@ -39,3 +43,27 @@ fun drawableToImageBitmap(context: Context, @DrawableRes resId: Int): ImageBitma
     drawable.draw(canvas)
     return bitmap.asImageBitmap()
 }
+
+
+fun DrawScope.drawImageOnCanvas(
+    x: Float,
+    imageSize: Float,
+    y: Float,
+    scaleFactor: Float,
+    images: List<ImageBitmap>,
+    index: Int,
+    colorTint: Color?
+) {
+    withTransform({
+        translate(left = x - imageSize / 2, top = y - imageSize / 2) // Center the image
+        scale(scaleFactor, scaleFactor) // Scale the image
+    }) {
+        drawImage(
+            images[index],
+            colorFilter = colorTint?.let { ColorFilter.tint(it) },
+        )
+    }
+}
+
+fun ClosedFloatingPointRange<Float>.random(): Float =
+    Random.nextFloat() * (endInclusive - start) + start

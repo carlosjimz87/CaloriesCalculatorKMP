@@ -16,7 +16,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.withTransform
@@ -26,7 +28,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.carlosjimz87.caloriescalculatorkmm.R
 import org.carlosjimz87.caloriescalculatorkmm.theme.Green
+import org.carlosjimz87.caloriescalculatorkmm.theme.LightGreen
+import org.carlosjimz87.caloriescalculatorkmm.theme.White
+import org.carlosjimz87.caloriescalculatorkmm.utils.drawImageOnCanvas
 import org.carlosjimz87.caloriescalculatorkmm.utils.drawableToImageBitmap
+import org.carlosjimz87.caloriescalculatorkmm.utils.random
 import kotlin.math.cos
 import kotlin.math.sin
 
@@ -36,7 +42,8 @@ fun RotatingCircleAnimation(
     backgroundColor: Color = Green, // Default Green
     rotationDurationMillis: Int = 2000, // Time per full rotation
     bigDishSize : Float = 270f,
-    smallDishSize : Float = 140f
+    smallDishSize : Float = 140f,
+    silhouettesSize : Float = 100f
 ) {
     val context = LocalContext.current
     val images = listOf(
@@ -44,6 +51,13 @@ fun RotatingCircleAnimation(
         drawableToImageBitmap(context, R.drawable.spaguettis),
         drawableToImageBitmap(context, R.drawable.salad),
         drawableToImageBitmap(context, R.drawable.squids)
+    )
+
+    val silhouettes = listOf(
+        drawableToImageBitmap(context, R.drawable.apple_sil),
+        drawableToImageBitmap(context, R.drawable.bread_sil),
+        drawableToImageBitmap(context, R.drawable.bread_sil),
+        drawableToImageBitmap(context, R.drawable.fish_sil)
     )
 
 
@@ -66,24 +80,34 @@ fun RotatingCircleAnimation(
         // Rotating Content
         Canvas(
             modifier = Modifier
-                .size(300.dp) // Circle size
+                .fillMaxSize()
                 .graphicsLayer(rotationZ = rotationAngle) // Rotation animation
         ) {
             val radius = size.minDimension / 2f
             val center = Offset(size.width / 2, size.height / 2)
 
             // Draw dish images
-            drawDishImages(bigDishSize, smallDishSize, images, center, radius)
+            drawImages(images, center, radius, bigDishSize, smallDishSize)
+
+            // draw silhouettes
+            drawSilhouettes(images = silhouettes,
+                center = center,
+                radius = radius,
+                dishSize = 270f,
+                silhouetteSize = 80f,
+                silhouetteColorTint = LightGreen // Optional color tint
+            )
         }
     }
 }
 
-fun DrawScope.drawDishImages(
-    bigDishSize: Float,
-    smallDishSize: Float,
+fun DrawScope.drawImages(
     images: List<ImageBitmap>,
     center: Offset,
-    radius: Float
+    radius: Float,
+    firstSize: Float,
+    secondSize: Float? = null,
+    colorTint : Color? = null
 ) {
     val quadrants = listOf(0f, 90f, 180f, 270f) // Angles for fixed quadrant positions
     val radiusFactor = 0.8f // Move the dishes further from the center
@@ -95,15 +119,57 @@ fun DrawScope.drawDishImages(
         val y = center.y + radius * radiusFactor * sin(radians).toFloat() + globalOffset.y
 
         // Set image size (big for even indices, small for odd indices)
-        val imageSize = if (index % 2 == 0) bigDishSize.dp.toPx() else smallDishSize.dp.toPx()
+        val imageSize = if(secondSize!=null){
+            if (index % 2 == 0) firstSize.dp.toPx() else secondSize.dp.toPx()
+        } else firstSize
+
         val scaleFactor = imageSize / images[index].width
 
         // Draw each dish image at a fixed quadrant position
-        withTransform({
-            translate(left = x - imageSize / 2, top = y - imageSize / 2) // Center the image
-            scale(scaleFactor, scaleFactor) // Scale the image
-        }) {
-            drawImage(images[index])
+        drawImageOnCanvas(x, imageSize, y, scaleFactor, images, index, colorTint)
+    }
+}
+
+
+fun DrawScope.drawSilhouettes(
+    images: List<ImageBitmap>,
+    center: Offset,
+    radius: Float,
+    dishSize: Float,
+    silhouetteSize: Float,
+    silhouetteColorTint: Color? = null
+) {
+    val quadrants = listOf(0f, 90f, 180f, 270f) // Fixed quadrant angles for dishes
+    val radiusFactor = 0.8f // Same radius factor as the dishes
+    val silhouetteOffset = dishSize / 2 + silhouetteSize / 2 + 20.dp.toPx() // Distance from the dish
+    val randomSpread = 15.dp.toPx() // Small random spread for silhouettes
+
+    quadrants.forEachIndexed { index, angle ->
+        val radians = Math.toRadians(angle.toDouble())
+        val dishX = center.x + radius * radiusFactor * cos(radians).toFloat()
+        val dishY = center.y + radius * radiusFactor * sin(radians).toFloat()
+
+        // Hardcoded positions for silhouettes around the dish
+        val silhouettePositions = listOf(
+            Offset(dishX - silhouetteOffset, dishY), // Left of the dish
+            Offset(dishX + silhouetteOffset, dishY), // Right of the dish
+            Offset(dishX, dishY - silhouetteOffset), // Above the dish
+            Offset(dishX, dishY + silhouetteOffset)  // Below the dish
+        )
+
+        // Draw silhouettes at the calculated positions
+        silhouettePositions.forEach { position ->
+            val adjustedX = position.x + (-randomSpread..randomSpread).random()
+            val adjustedY = position.y + (-randomSpread..randomSpread).random()
+            drawImageOnCanvas(
+                x = adjustedX,
+                y = adjustedY,
+                imageSize = silhouetteSize,
+                scaleFactor = silhouetteSize / images[index % images.size].width,
+                images = images,
+                index = index % images.size,
+                colorTint = silhouetteColorTint
+            )
         }
     }
 }
