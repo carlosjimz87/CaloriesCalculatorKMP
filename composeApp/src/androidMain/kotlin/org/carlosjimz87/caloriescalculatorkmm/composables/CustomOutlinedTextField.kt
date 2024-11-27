@@ -7,7 +7,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import org.carlosjimz87.caloriescalculatorkmm.theme.DarkGreen
+import org.carlosjimz87.caloriescalculatorkmm.theme.Green
 
 
 @Composable
@@ -17,7 +17,7 @@ fun CustomOutlinedTextField(
     value: String,
     onValueChange: (String) -> Unit,
     label: String,
-    primaryColor: Color = DarkGreen, // Default to DarkGreen
+    primaryColor: Color = Green, // Default to DarkGreen
 ) {
     OutlinedTextField(
         value = value,

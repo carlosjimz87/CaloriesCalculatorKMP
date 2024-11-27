@@ -14,8 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import org.carlosjimz87.caloriescalculatorkmm.theme.DarkGreen
-import org.carlosjimz87.caloriescalculatorkmm.theme.LightGreen
+import org.carlosjimz87.caloriescalculatorkmm.theme.Green
 
 @Composable
 fun DotsIndicator(
@@ -36,7 +35,7 @@ fun DotsIndicator(
                         .padding(horizontal = 4.dp)
                         .size(8.dp)
                         .clip(CircleShape)
-                        .background(DarkGreen) // Filled with dark green color
+                        .background(Green) // Filled with dark green color
                 )
             } else {
                 // Outlined Dot
@@ -47,7 +46,7 @@ fun DotsIndicator(
                         .clip(CircleShape)
                         .border(
                             width = 1.dp,
-                            color = DarkGreen, // Outline color
+                            color = Green, // Outline color
                             shape = CircleShape
                         )
                 )

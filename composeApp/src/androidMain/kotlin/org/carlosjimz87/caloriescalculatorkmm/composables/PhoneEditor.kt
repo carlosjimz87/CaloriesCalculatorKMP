@@ -10,12 +10,9 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -26,7 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import org.carlosjimz87.caloriescalculatorkmm.Constants
-import org.carlosjimz87.caloriescalculatorkmm.theme.DarkGreen
+import org.carlosjimz87.caloriescalculatorkmm.theme.Green
 
 
 @Composable
@@ -37,7 +34,7 @@ fun PhoneEditor(
     onCountryCodeChange: (String) -> Unit,
     phoneNumber: String,
     onPhoneNumberChange: (String) -> Unit,
-    primaryColor: Color = DarkGreen // Default DarkGreen
+    primaryColor: Color = Green
 ) {
     var isDropdownExpanded by remember { mutableStateOf(false) }
 
@@ -45,9 +42,10 @@ fun PhoneEditor(
         modifier = modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        // Country Code Selector with Flag and Dropdown
         Box(
-            modifier = Modifier.wrapContentSize()
+            modifier = Modifier
+                .height(56.dp)
+                .wrapContentSize()
         ) {
             OutlinedTextField(
                 value = countryCode,

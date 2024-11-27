@@ -15,14 +15,14 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import org.carlosjimz87.caloriescalculatorkmm.theme.DarkGreen
+import org.carlosjimz87.caloriescalculatorkmm.theme.Green
 
 
 @Composable
 fun OutlinedCustomButton(
     modifier: Modifier = Modifier,
-    contentColor: Color = DarkGreen,
-    borderColor: Color = DarkGreen,
+    contentColor: Color = Green,
+    borderColor: Color = Green,
     text : String = "Next step",
     textSize: TextUnit = 16.sp,
     height : Dp = 50.dp,

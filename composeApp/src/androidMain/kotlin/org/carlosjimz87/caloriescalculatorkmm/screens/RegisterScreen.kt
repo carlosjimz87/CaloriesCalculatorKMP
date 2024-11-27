@@ -28,12 +28,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import org.carlosjimz87.caloriescalculatorkmm.R
 import org.carlosjimz87.caloriescalculatorkmm.composables.CustomOutlinedTextField
 import org.carlosjimz87.caloriescalculatorkmm.composables.DotsIndicator
 import org.carlosjimz87.caloriescalculatorkmm.composables.OutlinedCustomButton
 import org.carlosjimz87.caloriescalculatorkmm.composables.PhoneEditor
-import org.carlosjimz87.caloriescalculatorkmm.theme.DarkGreen
+import org.carlosjimz87.caloriescalculatorkmm.theme.Green
 import org.carlosjimz87.caloriescalculatorkmm.utils.flagFromCountryCode
 
 @Composable
@@ -61,7 +60,7 @@ fun RegisterScreen(modifier: Modifier = Modifier) {
                     .fillMaxWidth()
                     .fillMaxHeight(0.5f)
                     .background(
-                        color = DarkGreen,
+                        color = Green,
                         shape = RoundedCornerShape(
                             bottomEnd = 24.dp,
                             bottomStart = 24.dp
@@ -87,7 +86,7 @@ fun RegisterScreen(modifier: Modifier = Modifier) {
                     Text(
                         text = "Create an account",
                         style = MaterialTheme.typography.headlineMedium,
-                        color = DarkGreen // Darker green
+                        color = Green // Darker green
                     )
                 }
 
