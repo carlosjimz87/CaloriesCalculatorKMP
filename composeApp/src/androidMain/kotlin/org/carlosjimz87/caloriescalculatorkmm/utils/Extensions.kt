@@ -15,6 +15,8 @@ import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.graphics.drawscope.withTransform
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.unit.Density
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntSize
 import org.carlosjimz87.caloriescalculatorkmm.R
 import kotlin.math.sqrt
@@ -67,3 +69,5 @@ fun DrawScope.drawImageOnCanvas(
 
 fun ClosedFloatingPointRange<Float>.random(): Float =
     Random.nextFloat() * (endInclusive - start) + start
+
+fun Dp.toPx(density: Density) = with(density) { this@toPx.toPx() }

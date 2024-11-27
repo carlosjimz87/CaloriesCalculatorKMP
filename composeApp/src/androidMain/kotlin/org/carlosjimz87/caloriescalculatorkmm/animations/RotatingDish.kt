@@ -25,8 +25,9 @@ import org.carlosjimz87.caloriescalculatorkmm.utils.drawableToImageBitmap
 
 @Composable
 fun RotatingDish(
+    modifier: Modifier = Modifier,
     image: ImageBitmap, // The dish image
-    size: Dp, // Size of the dish
+    size: Dp = 150.dp, // Size of the dish
     degrees: Float = 180f,
     rotationDurationMillis: Int = 2000,
     easingType : Easing = CubicBezierEasing(0.17f, 0.89f, 0.32f, 1.28f),
@@ -46,7 +47,7 @@ fun RotatingDish(
     }
 
     Box(
-        modifier = Modifier
+        modifier = modifier
             .size(size)
             .graphicsLayer(rotationZ = rotationAngle.value), // Apply rotation
         contentAlignment = Alignment.Center
