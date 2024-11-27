@@ -58,7 +58,7 @@ fun RegisterScreen(modifier: Modifier = Modifier) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .fillMaxHeight(0.5f)
+                    .fillMaxHeight(0.5f) // this makes the container take 50% of the height
                     .background(
                         color = Green,
                         shape = RoundedCornerShape(
@@ -125,7 +125,7 @@ fun RegisterScreen(modifier: Modifier = Modifier) {
             Spacer(modifier = Modifier.weight(1f)) // Push button to the bottom
 
             // Action Button Section
-            OutlinedCustomButton {
+            OutlinedCustomButton(bottomMargin = 32.dp) {
                 // toast
                 Toast.makeText(context, "TBD", Toast.LENGTH_SHORT).show()
             }
