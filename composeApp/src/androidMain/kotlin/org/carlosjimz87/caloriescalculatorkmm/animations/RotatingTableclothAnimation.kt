@@ -16,7 +16,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.paint
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -27,8 +26,6 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import org.carlosjimz87.caloriescalculatorkmm.R
-import org.carlosjimz87.caloriescalculatorkmm.theme.Green
-import org.carlosjimz87.caloriescalculatorkmm.utils.calculateMaxRotationSize
 import org.carlosjimz87.caloriescalculatorkmm.utils.drawableToImageBitmap
 import org.carlosjimz87.caloriescalculatorkmm.utils.toPx
 import kotlin.math.cos
@@ -43,7 +40,6 @@ fun RotatingTableclothAnimation(
         R.drawable.salad
     ),
     dishesQuadrants: List<Float> = listOf(0f, 90f, 180f), // Angles for visible quadrants
-    backgroundColor: Color = Green, // Default tablecloth color
     distanceFromCenter: Dp = 60.dp, // Distance from center to place the dishes
     tableRotationDurationMillis: Int = 1000, // Time for the tablecloth rotation
     dishRotationDurationMillis: Int = 1000, // Time for dish rotation
@@ -112,19 +108,12 @@ fun RotatingTableclothAnimation(
         modifier = modifier
             .fillMaxSize()
             .graphicsLayer(rotationZ = containerRotationAngle.value) // Rotate entire container
-            .background(backgroundColor),
-        contentAlignment = Alignment.Center
-    ) {
-        // Tablecloth (fills the entire container, no need for extra size calculations)
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .size(calculateMaxRotationSize())
-                .paint(
+            .paint(
                     painterResource(id = R.drawable.background),
                     contentScale = ContentScale.Crop
-                )
-        )
+                ),
+        contentAlignment = Alignment.Center
+    ) {
 
         // Dishes (visible quadrants)
         dishesQuadrants.forEachIndexed { index, angle ->
