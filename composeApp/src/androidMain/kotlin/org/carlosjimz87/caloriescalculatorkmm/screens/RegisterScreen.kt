@@ -95,11 +95,6 @@ fun RegisterScreen(modifier: Modifier = Modifier) {
                     )
                 }
 
-                Text(
-                    text = "Sign up to get started",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = Color.Gray
-                )
             }
 
             Spacer(modifier = Modifier.height(24.dp)) // Spacing before form
