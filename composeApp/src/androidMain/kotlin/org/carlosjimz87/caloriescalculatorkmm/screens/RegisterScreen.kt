@@ -24,10 +24,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import org.carlosjimz87.caloriescalculatorkmm.animations.RotatingTableclothAnimation
 import org.carlosjimz87.caloriescalculatorkmm.composables.CustomOutlinedTextField
 import org.carlosjimz87.caloriescalculatorkmm.composables.DotsIndicator
 import org.carlosjimz87.caloriescalculatorkmm.composables.OutlinedCustomButton
@@ -41,32 +43,35 @@ fun RegisterScreen(modifier: Modifier = Modifier) {
     val context = LocalContext.current
     var countryCode by remember { mutableStateOf("+1") }
     var phoneNumber by remember { mutableStateOf("") }
-
+    val reverse by remember { mutableStateOf(false) }
 
     Card(
         modifier = modifier
             .fillMaxSize()
             .background(color = Color.White),
-        shape = RoundedCornerShape(bottomStart = 24.dp, bottomEnd = 24.dp),
+        shape = RoundedCornerShape(bottomStart = 48.dp, bottomEnd = 48.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
     ) {
         Column(
-            modifier = Modifier
-                .fillMaxSize()
+            modifier = Modifier.fillMaxSize()
         ) {
-            // Green Container at the Top
+            // Green Container at the Top with Animation
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
                     .fillMaxHeight(0.5f) // this makes the container take 50% of the height
-                    .background(
-                        color = Green,
-                        shape = RoundedCornerShape(
+                    .clip(
+                        RoundedCornerShape(
                             bottomEnd = 24.dp,
                             bottomStart = 24.dp
                         )
-                    )
-            )
+                    ) // Clip to the rounded corners
+            ) {
+                RotatingTableclothAnimation(
+                    modifier = Modifier.fillMaxSize(),
+                    reverse = reverse
+                )
+            }
 
             Spacer(modifier = Modifier.height(16.dp)) // Spacing between the container and content
 

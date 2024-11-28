@@ -37,12 +37,12 @@ import kotlin.math.sin
 @Composable
 fun RotatingTableclothAnimation(
     modifier: Modifier = Modifier,
-    dishesImagesResources : List<Int> = listOf(
+    dishesImagesResources: List<Int> = listOf(
         R.drawable.mushrooms,
         R.drawable.spaguettis,
         R.drawable.salad
     ),
-    dishesQuadrants: List<Float> = listOf(0f, 90f, 180f),// Angles for visible quadrants
+    dishesQuadrants: List<Float> = listOf(0f, 90f, 180f), // Angles for visible quadrants
     backgroundColor: Color = Green, // Default tablecloth color
     distanceFromCenter: Dp = 60.dp, // Distance from center to place the dishes
     tableRotationDurationMillis: Int = 1000, // Time for the tablecloth rotation
@@ -52,7 +52,9 @@ fun RotatingTableclothAnimation(
     dishSize: Dp = 185.dp, // Size of each dish
     mainEasing: Easing = CubicBezierEasing(0.42f, 0.0f, 0.58f, 1.0f), // Smooth easing
     secondaryEasing: Easing = CubicBezierEasing(0.17f, 0.89f, 0.32f, 1.28f), // Smooth easing
-    fractionOfProgress: Float = 0.9f // Fraction of the main animation when dishes start
+    fractionOfProgress: Float = 0.9f, // Fraction of the main animation when dishes start
+    enable: Boolean = true, // Enable/Disable animation
+    reverse: Boolean = false // Clockwise or counterclockwise
 ) {
     if (dishesImagesResources.size != dishesQuadrants.size) {
         throw IllegalArgumentException("The number of dishes must match the number of quadrants")
@@ -70,30 +72,39 @@ fun RotatingTableclothAnimation(
     // States for the individual dish rotations
     val dishRotationAngles = List(dishesImagesResources.size) { remember { Animatable(0f) } }
 
-    LaunchedEffect(null) {
-        // Start both animations simultaneously
-        coroutineScope {
-            launch {
-                containerRotationAngle.animateTo(
-                    targetValue = tableRotationAngleValue,
-                    animationSpec = tween(
-                        durationMillis = tableRotationDurationMillis,
-                        easing = mainEasing
-                    )
-                )
-            }
-            dishRotationAngles.forEach { animatable ->
+    LaunchedEffect(enable) {
+        if (enable) {
+            coroutineScope {
                 launch {
-                    animatable.animateTo(
-                        targetValue = dishesRotationAngleValue,
+                    // Adjust direction based on `reversible`
+                    val tableTargetAngle = if (reverse) -tableRotationAngleValue else tableRotationAngleValue
+                    containerRotationAngle.animateTo(
+                        targetValue = tableTargetAngle,
                         animationSpec = tween(
-                            durationMillis = dishRotationDurationMillis,
-                            delayMillis = (tableRotationDurationMillis * fractionOfProgress).toInt(),
-                            easing = secondaryEasing
+                            durationMillis = tableRotationDurationMillis,
+                            easing = mainEasing
                         )
                     )
                 }
+                dishRotationAngles.forEach { animatable ->
+                    launch {
+                        // Adjust direction based on `reversible`
+                        val dishTargetAngle = if (reverse) -dishesRotationAngleValue else dishesRotationAngleValue
+                        animatable.animateTo(
+                            targetValue = dishTargetAngle,
+                            animationSpec = tween(
+                                durationMillis = dishRotationDurationMillis,
+                                delayMillis = (tableRotationDurationMillis * fractionOfProgress).toInt(),
+                                easing = secondaryEasing
+                            )
+                        )
+                    }
+                }
             }
+        } else {
+            // Reset animations to initial state when disabled
+            containerRotationAngle.snapTo(0f)
+            dishRotationAngles.forEach { it.snapTo(0f) }
         }
     }
 
@@ -111,7 +122,8 @@ fun RotatingTableclothAnimation(
                 .size(calculateMaxRotationSize())
                 .paint(
                     painterResource(id = R.drawable.background),
-                    contentScale = ContentScale.Crop)
+                    contentScale = ContentScale.Crop
+                )
         )
 
         // Dishes (visible quadrants)
