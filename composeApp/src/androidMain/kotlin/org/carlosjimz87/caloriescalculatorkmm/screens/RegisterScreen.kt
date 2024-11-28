@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -49,7 +50,10 @@ fun RegisterScreen(modifier: Modifier = Modifier) {
         modifier = modifier
             .fillMaxSize()
             .background(color = Color.White),
-        shape = RoundedCornerShape(bottomStart = 48.dp, bottomEnd = 48.dp),
+        shape = RoundedCornerShape(
+            topStart = 0.dp,
+            topEnd = 0.dp
+        ),
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
     ) {
         Column(
@@ -62,8 +66,8 @@ fun RegisterScreen(modifier: Modifier = Modifier) {
                     .fillMaxHeight(0.5f) // this makes the container take 50% of the height
                     .clip(
                         RoundedCornerShape(
-                            bottomEnd = 24.dp,
-                            bottomStart = 24.dp
+                            bottomEnd = 48.dp,
+                            bottomStart = 48.dp
                         )
                     ) // Clip to the rounded corners
             ) {
