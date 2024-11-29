@@ -26,7 +26,6 @@ fun flagFromCountryCode(countryCode: String): Int {
         }
     }
 
-
 fun drawableToImageBitmap(context: Context, @DrawableRes resId: Int): ImageBitmap {
     val drawable = AppCompatResources.getDrawable(context, resId) ?: throw IllegalArgumentException("Drawable not found")
     val bitmap = Bitmap.createBitmap(
@@ -39,30 +38,5 @@ fun drawableToImageBitmap(context: Context, @DrawableRes resId: Int): ImageBitma
     drawable.draw(canvas)
     return bitmap.asImageBitmap()
 }
-
-
-fun DrawScope.drawImageOnCanvas(
-    x: Float,
-    imageSize: Float,
-    y: Float,
-    scaleFactor: Float,
-    images: List<ImageBitmap>,
-    index: Int,
-    colorTint: Color?
-) {
-    withTransform({
-        translate(left = x - imageSize / 2, top = y - imageSize / 2) // Center the image
-        scale(scaleFactor, scaleFactor) // Scale the image
-    }) {
-        drawImage(
-            images[index],
-            colorFilter = colorTint?.let { ColorFilter.tint(it) },
-        )
-    }
-}
-
-
-fun ClosedFloatingPointRange<Float>.random(): Float =
-    Random.nextFloat() * (endInclusive - start) + start
 
 fun Dp.toPx(density: Density) = with(density) { this@toPx.toPx() }

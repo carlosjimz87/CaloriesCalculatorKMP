@@ -112,8 +112,8 @@ fun RotatingTableclothAnimation(
             .fillMaxSize()
             .graphicsLayer(
                 rotationZ = containerRotationAngle.value,
-                scaleX = 3f,
-                scaleY = 3f,
+                scaleX = 2f,
+                scaleY = 2f,
             )
             .offset(x = xOffset, y = yOffset)
             .paint(
