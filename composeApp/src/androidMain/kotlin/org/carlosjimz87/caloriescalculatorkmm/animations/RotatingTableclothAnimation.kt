@@ -4,17 +4,16 @@ import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.CubicBezierEasing
 import androidx.compose.animation.core.Easing
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.paint
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -37,25 +36,24 @@ fun RotatingTableclothAnimation(
     modifier: Modifier = Modifier,
     dishesImagesResources: List<Int> = listOf(
         R.drawable.salad,
-        R.drawable.spaguettis,
-        R.drawable.squids,
         R.drawable.mushrooms,
+        R.drawable.squids,
+        R.drawable.spaguettis,
         R.drawable.tomahawk
     ),
     dishesQuadrants: List<Float> = listOf(0f, 90f, 180f, 270f), // Angles for orbiting dishes
     dishSizes: List<Dp> = listOf(75.dp, 125.dp, 125.dp, 125.dp, 125.dp), // Sizes for each dish
-    distanceFromCenter: Dp = 50.dp, // Distance from center to place orbiting dishes
-    tableRotationDurationMillis: Int = 1000, // Time for the tablecloth rotation
-    dishRotationDurationMillis: Int = 1000, // Time for dish rotation
-    tableRotationAngleValue: Float = 90f, // Angle for the tablecloth rotation
-    dishesRotationAngleValue: Float = 180f, // Angles for the dishes rotation
-    mainEasing: Easing = CubicBezierEasing(0.42f, 0.0f, 0.58f, 1.0f), // Smooth easing
-    secondaryEasing: Easing = CubicBezierEasing(0.17f, 0.89f, 0.32f, 1.28f), // Smooth easing
-    fractionOfProgress: Float = 0.9f, // Fraction of the main animation when dishes start
-    enable: Boolean = true, // Enable/Disable animation
-    reverse: Boolean = false, // Clockwise or counterclockwise
-    xOffset: Dp = 60.dp, // Horizontal translation for the entire system
-    yOffset: Dp = (-80).dp  // Vertical translation for the entire system
+    distanceFromCenter: Dp = 45.dp,
+    tableRotationDurationMillis: Int = 800,
+    dishRotationDurationMillis: Int = 800,
+    tableRotationAngleValue: Float = 90f,
+    dishesRotationAngleValue: Float = 180f,
+    easing: Easing = CubicBezierEasing(0.42f, 0f, 0.58f, 1f),
+    fractionOfProgress: Float = 0.8f,
+    xOffset: Dp = 50.dp,
+    yOffset: Dp = -(70).dp,
+    enable: Boolean = true,
+    reverse: Boolean = false,
 ) {
     require(dishesImagesResources.size == dishSizes.size) {
         "The number of dishes and sizes must match"
@@ -64,12 +62,14 @@ fun RotatingTableclothAnimation(
     val context = LocalContext.current
     val density = LocalDensity.current
 
-    val dishesBitmaps = dishesImagesResources.map {
-        drawableToImageBitmap(context, it)
+    val dishesBitmaps = remember(dishesImagesResources) {
+        dishesImagesResources.map { drawableToImageBitmap(context, it) }
     }
 
     val containerRotationAngle = remember { Animatable(0f) }
-    val dishRotationAngles = List(dishesImagesResources.size - 1) { remember { Animatable(0f) } }
+    val dishRotationAngles = remember {
+        List(dishesImagesResources.size - 1) { Animatable(0f) }
+    }
 
     LaunchedEffect(enable) {
         if (enable) {
@@ -80,7 +80,7 @@ fun RotatingTableclothAnimation(
                         targetValue = tableTargetAngle,
                         animationSpec = tween(
                             durationMillis = tableRotationDurationMillis,
-                            easing = mainEasing
+                            easing = easing
                         )
                     )
                 }
@@ -92,7 +92,7 @@ fun RotatingTableclothAnimation(
                             animationSpec = tween(
                                 durationMillis = dishRotationDurationMillis,
                                 delayMillis = (tableRotationDurationMillis * fractionOfProgress).toInt(),
-                                easing = secondaryEasing
+                                easing = easing
                             )
                         )
                     }
@@ -109,8 +109,8 @@ fun RotatingTableclothAnimation(
             .fillMaxSize()
             .graphicsLayer(
                 rotationZ = containerRotationAngle.value,
-                scaleX = 2.5f,
-                scaleY = 2.5f
+                scaleX = 3f,
+                scaleY = 3f,
             )
             .offset(x = xOffset, y = yOffset)
             .paint(
@@ -126,21 +126,28 @@ fun RotatingTableclothAnimation(
             zRotation = dishRotationAngles[0].value,
         )
 
+        val dishPositions = remember(dishesQuadrants) {
+            dishesQuadrants.map { angle ->
+                val radians = Math.toRadians(angle.toDouble() + containerRotationAngle.value)
+                Offset(
+                    x = distanceFromCenter.toPx(density) * cos(radians).toFloat(),
+                    y = distanceFromCenter.toPx(density) * sin(radians).toFloat()
+                )
+            }
+        }
+
         // Orbiting Dishes
-        dishesQuadrants.forEachIndexed { index, angle ->
+        dishPositions.forEachIndexed { index, pos ->
             val adjustedIndex = index + 1
-            val radians = Math.toRadians((angle + containerRotationAngle.value).toDouble())
-            val radius = distanceFromCenter.toPx(density)
-            val dishX = radius * cos(radians).toFloat()
-            val dishY = radius * sin(radians).toFloat()
 
             Dish(
                 image = dishesBitmaps[adjustedIndex],
                 size = dishSizes[adjustedIndex],
                 zRotation = dishRotationAngles[index].value,
-                x = dishX.dp,
-                y = dishY.dp
+                x = pos.x.dp,
+                y = pos.y.dp
             )
+            println("Dish -> $adjustedIndex at $pos")
         }
     }
 }
