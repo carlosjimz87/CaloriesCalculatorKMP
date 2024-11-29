@@ -30,7 +30,7 @@ fun OutlinedCustomButton(
     textSize: TextUnit = 22.sp,
     height : Dp = 75.dp,
     topMargin: Dp = 0.dp,
-    bottomMargin: Dp = 0.dp,
+    bottomMargin: Dp = 32.dp,
     horizontalPadding : Dp = 32.dp,
     onClick: () -> Unit
 ) {

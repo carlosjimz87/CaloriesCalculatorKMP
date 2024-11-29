@@ -35,14 +35,14 @@ fun RotatingTableclothAnimation(
     modifier: Modifier = Modifier,
     dishesImagesResources: List<Int> = listOf(
         R.drawable.salad,
-        R.drawable.mushrooms,
         R.drawable.squids,
         R.drawable.spaguettis,
-        R.drawable.tomahawk
+        R.drawable.tomahawk,
+        R.drawable.mushrooms
     ),
     dishesQuadrants: List<Float> = listOf(0f, 90f, 180f, 270f), // Angles for orbiting dishes
     dishSizes: List<Dp> = listOf(75.dp, 125.dp, 125.dp, 125.dp, 125.dp), // Sizes for each dish
-    distanceFromCenter: Dp = 45.dp,
+    distanceFromCenter: Dp = 55.dp,
     tableRotationDurationMillis: Int = 800,
     dishRotationDurationMillis: Int = 800,
     tableRotationAngleValue: Float = 90f,
@@ -112,8 +112,8 @@ fun RotatingTableclothAnimation(
             .fillMaxSize()
             .graphicsLayer(
                 rotationZ = containerRotationAngle.value,
-                scaleX = 2f,
-                scaleY = 2f,
+                scaleX = 2.5f,
+                scaleY = 2.5f,
             )
             .offset(x = xOffset, y = yOffset)
             .paint(
