@@ -45,8 +45,7 @@ fun OutlinedCustomButton(
                     end = 0.dp,
                     top = topMargin,
                     bottom = bottomMargin
-                )
-                .height(height),
+                ),
             shape = RoundedCornerShape(50), // Rounded button
             border = BorderStroke(2.dp, borderColor), // Change border color
             colors = ButtonDefaults.outlinedButtonColors(
