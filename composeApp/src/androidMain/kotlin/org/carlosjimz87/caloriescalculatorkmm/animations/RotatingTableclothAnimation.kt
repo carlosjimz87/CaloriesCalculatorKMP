@@ -30,7 +30,6 @@ import org.carlosjimz87.caloriescalculatorkmm.utils.drawableToImageBitmap
 import org.carlosjimz87.caloriescalculatorkmm.utils.toPx
 import kotlin.math.cos
 import kotlin.math.sin
-
 @Composable
 fun RotatingTableclothAnimation(
     modifier: Modifier = Modifier,
@@ -62,16 +61,19 @@ fun RotatingTableclothAnimation(
     val context = LocalContext.current
     val density = LocalDensity.current
 
+    // Convert drawable resources to bitmaps
     val dishesBitmaps = remember(dishesImagesResources) {
         dishesImagesResources.map { drawableToImageBitmap(context, it) }
     }
 
+    // Animation states for the table and dishes
     val containerRotationAngle = remember { Animatable(0f) }
     val dishRotationAngles = remember {
         List(dishesImagesResources.size - 1) { Animatable(0f) }
     }
 
-    LaunchedEffect(enable) {
+    // Start animations when `reverse` changes
+    LaunchedEffect(enable, reverse) {
         if (enable) {
             coroutineScope {
                 launch {
@@ -104,6 +106,7 @@ fun RotatingTableclothAnimation(
         }
     }
 
+    // Tablecloth and rotating content
     Box(
         modifier = modifier
             .fillMaxSize()
@@ -126,7 +129,8 @@ fun RotatingTableclothAnimation(
             zRotation = dishRotationAngles[0].value,
         )
 
-        val dishPositions = remember(dishesQuadrants) {
+        // Pre-calculate dish positions based on the current rotation state
+        val dishPositions = remember(dishesQuadrants, containerRotationAngle.value) {
             dishesQuadrants.map { angle ->
                 val radians = Math.toRadians(angle.toDouble() + containerRotationAngle.value)
                 Offset(
@@ -136,9 +140,9 @@ fun RotatingTableclothAnimation(
             }
         }
 
-        // Orbiting Dishes
+        // Render orbiting dishes
         dishPositions.forEachIndexed { index, pos ->
-            val adjustedIndex = index + 1
+            val adjustedIndex = index + 1 // Skip the center dish
 
             Dish(
                 image = dishesBitmaps[adjustedIndex],
@@ -147,7 +151,6 @@ fun RotatingTableclothAnimation(
                 x = pos.x.dp,
                 y = pos.y.dp
             )
-            println("Dish -> $adjustedIndex at $pos")
         }
     }
 }

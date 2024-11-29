@@ -61,7 +61,7 @@ fun AuthScreen(modifier: Modifier = Modifier) {
             ) {
                 RotatingTableclothAnimation(
                     modifier = Modifier.fillMaxSize(),
-                    reverse = reverse
+                    reverse = reverse // Pass the state to trigger animation
                 )
             }
 
@@ -86,7 +86,7 @@ fun AuthScreen(modifier: Modifier = Modifier) {
                         countryCode,
                         phoneNumber,
                         onNextStep = {
-                            reverse = true
+                            reverse = true // Trigger reverse animation
                             isRegisterView = false
                         },
                         onCountryCodeChange = { countryCode = it },
@@ -96,7 +96,7 @@ fun AuthScreen(modifier: Modifier = Modifier) {
                     // Login View
                     LoginView(
                         onBack = {
-                            reverse = false
+                            reverse = false // Trigger forward animation
                             isRegisterView = true
                         },
                         forgotPassword = { }
