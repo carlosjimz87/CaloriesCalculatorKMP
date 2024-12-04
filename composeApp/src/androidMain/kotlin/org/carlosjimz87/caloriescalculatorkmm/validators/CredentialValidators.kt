@@ -25,3 +25,25 @@ fun validatePassword(password: String): String? {
         else -> null // No error
     }
 }
+
+val phoneRegexMap = mapOf(
+    "+1" to """^\d{9}$""".toRegex(), // USA: 9 digits
+    "+44" to """^\d{8}$""".toRegex(), // UK: 6 digits
+    "+91" to """^\d{10}$""".toRegex(), // India: 10 digits
+)
+
+val phoneMessageErrorsMap = mapOf(
+    "+1" to "Invalid phone number. Need 9 digits",
+    "+44" to "Invalid phone number. Need 8 digits",
+    "+91" to "Invalid phone number. Need 10 digits",
+)
+
+fun validatePhoneNumber(countryCode: String, phoneNumber: String): String? {
+    val phoneRegex = phoneRegexMap[countryCode]
+    return when {
+        phoneNumber.isBlank() -> null
+        phoneRegex == null -> "Invalid country code"
+        !phoneNumber.matches(phoneRegex) -> phoneMessageErrorsMap[countryCode]
+        else -> null // No error
+    }
+}

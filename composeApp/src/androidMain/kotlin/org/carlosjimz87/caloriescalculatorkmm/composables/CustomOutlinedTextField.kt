@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
@@ -13,6 +14,7 @@ import androidx.compose.material3.TextFieldColors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import org.carlosjimz87.caloriescalculatorkmm.theme.Green
@@ -25,6 +27,7 @@ fun CustomOutlinedTextField(
     label: String,
     readOnly: Boolean = false,
     error: String? = null,
+    keyboardType: KeyboardType? = null,
     primaryColor: Color = Green,
     errorColor: Color = MaterialTheme.colorScheme.error,
     leadingIcon: @Composable (() -> Unit)? = null, // Optional leading icon
@@ -33,14 +36,17 @@ fun CustomOutlinedTextField(
 ) {
     OutlinedTextField(
         value = value,
-        onValueChange = onValueChange,
+        onValueChange = { newValue ->
+            if (keyboardType == KeyboardType.Number && newValue.all { it.isDigit() }) {
+                onValueChange(newValue)
+            }
+        },
         readOnly = readOnly,
         visualTransformation = visualTransformation, // Apply the transformation here
         label = {
             Text(
-                modifier = Modifier.focusable(false),
                 text = label,
-                color = primaryColor,
+                color = if(error!=null) errorColor else primaryColor,
             )
         },
         trailingIcon = trailingIcon,
@@ -49,8 +55,10 @@ fun CustomOutlinedTextField(
         colors = getColors(error, primaryColor, errorColor),
         modifier = modifier
             .height(IntrinsicSize.Min)
-            .fillMaxWidth()
-    )
+            .fillMaxWidth(),
+        keyboardOptions =  KeyboardOptions.Default.copy(keyboardType = keyboardType ?: KeyboardType.Text),
+        )
+    // Display the error message if any
     if (error != null) {
         Text(
             text = error,
@@ -65,6 +73,7 @@ fun CustomOutlinedTextField(
 fun getColors(error: String?, primaryColor: Color, errorColor: Color): TextFieldColors {
     return if(error!=null){
         return OutlinedTextFieldDefaults.colors(
+            errorTextColor = errorColor,
             focusedBorderColor = errorColor,
             unfocusedBorderColor = errorColor.copy(alpha = 0.7f),
             cursorColor = errorColor,
@@ -73,6 +82,7 @@ fun getColors(error: String?, primaryColor: Color, errorColor: Color): TextField
         )
     } else {
         OutlinedTextFieldDefaults.colors(
+            errorTextColor = Color.Unspecified,
             focusedBorderColor = primaryColor,
             unfocusedBorderColor = primaryColor.copy(alpha = 0.7f),
             cursorColor = primaryColor,

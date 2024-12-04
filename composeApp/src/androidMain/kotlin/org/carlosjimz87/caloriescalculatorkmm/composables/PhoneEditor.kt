@@ -2,9 +2,11 @@ package org.carlosjimz87.caloriescalculatorkmm.composables
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -13,6 +15,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -26,18 +29,18 @@ fun PhoneEditor(
     flagResource: Int,
     countryCode: String,
     phoneNumber: String,
-    height: Dp = 56.dp,
     primaryColor: Color = Green,
     onPhoneNumberChange: (String) -> Unit,
     onCountryCodeChange: (String) -> Unit,
+    phoneError: String? = null
 ) {
     var isDropdownExpanded by remember { mutableStateOf(false) }
 
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .height(height), // Enforce same height for the Row
-        verticalAlignment = Alignment.CenterVertically,
+            .wrapContentHeight(), // Enforce same height for the Row
+        verticalAlignment = Alignment.Top,
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         Box(
@@ -73,11 +76,20 @@ fun PhoneEditor(
         }
 
         // Phone Number Input
-        CustomOutlinedTextField(
-            value = phoneNumber,
-            onValueChange = onPhoneNumberChange,
-            label = "Phone",
-        )
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .wrapContentHeight() // Allow height expansion for error message
+        ) {
+            CustomOutlinedTextField(
+                value = phoneNumber,
+                onValueChange = { onPhoneNumberChange(it) },
+                label = "Phone",
+                keyboardType = KeyboardType.Number,
+                error = phoneError, // Pass the error message here
+                primaryColor = primaryColor
+            )
+        }
     }
 }
 
@@ -88,7 +100,7 @@ private fun PhoneEditorPreview() {
     PhoneEditor(
         flagResource = flagFromCountryCode(countryCode),
         countryCode = countryCode,
-        phoneNumber = "",
+        phoneNumber = "234314",
         onCountryCodeChange = {},
         onPhoneNumberChange = {}
     )

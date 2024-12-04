@@ -18,24 +18,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import org.carlosjimz87.caloriescalculatorkmm.composables.CustomOutlinedTextField
 import org.carlosjimz87.caloriescalculatorkmm.composables.DotsIndicator
-import org.carlosjimz87.caloriescalculatorkmm.composables.EmailField
+import org.carlosjimz87.caloriescalculatorkmm.composables.EmailTextField
 import org.carlosjimz87.caloriescalculatorkmm.composables.OutlinedCustomButton
 import org.carlosjimz87.caloriescalculatorkmm.composables.PhoneEditor
 import org.carlosjimz87.caloriescalculatorkmm.theme.Green
 import org.carlosjimz87.caloriescalculatorkmm.utils.flagFromCountryCode
 import org.carlosjimz87.caloriescalculatorkmm.validators.validateEmail
+import org.carlosjimz87.caloriescalculatorkmm.validators.validatePhoneNumber
 
 
 @Composable
 fun RegisterView(
-    countryCode: String,
-    phoneNumber: String,
     onNextStep: () -> Unit,
-    onCountryCodeChange: (String) -> Unit = {},
-    onPhoneNumberChange: (String) -> Unit = {}
 ) {
+    var countryCode by remember { mutableStateOf("+1") }
+    var phoneNumber by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") } // State to manage the text
 
     Column(
@@ -75,14 +73,15 @@ fun RegisterView(
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
 
-            EmailField(email = email, onEmailChange = {email = it}, emailError = validateEmail(email))
+            EmailTextField(email = email, onEmailChange = {email = it}, emailError = validateEmail(email))
 
             PhoneEditor(
                 flagResource = flagFromCountryCode(countryCode), // Replace with your flag resource
                 countryCode = countryCode,
                 phoneNumber = phoneNumber,
-                onCountryCodeChange = { onCountryCodeChange(it) },
-                onPhoneNumberChange = { onPhoneNumberChange(it) }
+                onCountryCodeChange =  { countryCode = it },
+                onPhoneNumberChange = { phoneNumber = it },
+                phoneError = validatePhoneNumber(countryCode, phoneNumber)
             )
         }
 
@@ -99,8 +98,6 @@ fun RegisterView(
 @Composable
 private fun RegisterViewPreview() {
     RegisterView(
-        countryCode = "US",
-        phoneNumber = "1234567890",
         onNextStep = {}
     )
 }

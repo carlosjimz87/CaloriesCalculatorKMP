@@ -19,10 +19,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import org.carlosjimz87.caloriescalculatorkmm.composables.CustomOutlinedTextField
 import org.carlosjimz87.caloriescalculatorkmm.composables.DotsIndicator
-import org.carlosjimz87.caloriescalculatorkmm.composables.EmailField
-import org.carlosjimz87.caloriescalculatorkmm.composables.OutlinedCustomButton
+import org.carlosjimz87.caloriescalculatorkmm.composables.EmailTextField
+import org.carlosjimz87.caloriescalculatorkmm.composables.FilledCustomButton
 import org.carlosjimz87.caloriescalculatorkmm.theme.Green
 import org.carlosjimz87.caloriescalculatorkmm.validators.validateEmail
 import org.carlosjimz87.caloriescalculatorkmm.validators.validatePassword
@@ -73,7 +72,7 @@ fun LoginView(onBack: () -> Unit, forgotPassword: () -> Unit) {
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             // Form Section
-            EmailField(email = email, onEmailChange = {email = it}, emailError = validateEmail(email))
+            EmailTextField(email = email, onEmailChange = {email = it}, emailError = validateEmail(email))
             PasswordTextField(value = pass, onPasswordChange = {pass = it}, passError = validatePassword(pass))
 
             Text(
@@ -89,7 +88,7 @@ fun LoginView(onBack: () -> Unit, forgotPassword: () -> Unit) {
 
         Spacer(modifier = Modifier.weight(1f))
 
-        OutlinedCustomButton {
+        FilledCustomButton {
             onBack()
         }
     }

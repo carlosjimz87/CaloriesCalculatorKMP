@@ -35,8 +35,6 @@ import org.carlosjimz87.caloriescalculatorkmm.utils.openInBrowser
 @Composable
 fun AuthScreen(modifier: Modifier = Modifier) {
     var isRegisterView by remember { mutableStateOf(true) }
-    var countryCode by remember { mutableStateOf("+1") }
-    var phoneNumber by remember { mutableStateOf("") }
     var reverse by remember { mutableStateOf(false) }
     val context = LocalContext.current
     Card(
@@ -85,14 +83,10 @@ fun AuthScreen(modifier: Modifier = Modifier) {
                 if (targetState) {
                     // Register View
                     RegisterView(
-                        countryCode,
-                        phoneNumber,
                         onNextStep = {
                             reverse = true // Trigger reverse animation
                             isRegisterView = false
                         },
-                        onCountryCodeChange = { countryCode = it },
-                        onPhoneNumberChange = { phoneNumber = it }
                     )
                 } else {
                     // Login View

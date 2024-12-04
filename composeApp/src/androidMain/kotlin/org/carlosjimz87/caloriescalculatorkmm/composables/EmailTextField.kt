@@ -4,7 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 
 @Composable
-fun EmailField(
+fun EmailTextField(
     email: String,
     onEmailChange: (String) -> Unit,
     emailError: String?,
