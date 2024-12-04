@@ -1,20 +1,20 @@
 package org.carlosjimz87.caloriescalculatorkmm.utils
 
 import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.net.Uri
+import android.widget.Toast
 import androidx.annotation.DrawableRes
 import androidx.appcompat.content.res.AppCompatResources
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.graphics.drawscope.DrawScope
-import androidx.compose.ui.graphics.drawscope.withTransform
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import org.carlosjimz87.caloriescalculatorkmm.R
-import kotlin.random.Random
 
 
 fun flagFromCountryCode(countryCode: String): Int {
@@ -40,3 +40,30 @@ fun drawableToImageBitmap(context: Context, @DrawableRes resId: Int): ImageBitma
 }
 
 fun Dp.toPx(density: Density) = with(density) { this@toPx.toPx() }
+
+
+/**
+ * Extension function to open a URL in a web browser.
+ *
+ * @param url The URL to open.
+ */
+fun openInBrowser(context: Context, url: String) {
+    with(context){
+
+        try {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+
+            // Get a list of apps that can handle this intent
+            val resolveInfoList = packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY)
+
+            if (resolveInfoList.isNotEmpty()) {
+                // Launch the intent if there's at least one app available
+                startActivity(intent)
+            } else {
+                Toast.makeText(this, "No application available to open this URL", Toast.LENGTH_SHORT).show()
+            }
+        } catch (e: Exception) {
+            Toast.makeText(this, "Failed to open URL: ${e.message}", Toast.LENGTH_SHORT).show()
+        }
+    }
+}

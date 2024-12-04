@@ -24,11 +24,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.carlosjimz87.caloriescalculatorkmm.animations.RotatingTableclothAnimation
 import org.carlosjimz87.caloriescalculatorkmm.screens.auth.views.LoginView
 import org.carlosjimz87.caloriescalculatorkmm.screens.auth.views.RegisterView
+import org.carlosjimz87.caloriescalculatorkmm.utils.openInBrowser
 
 @Composable
 fun AuthScreen(modifier: Modifier = Modifier) {
@@ -36,7 +38,7 @@ fun AuthScreen(modifier: Modifier = Modifier) {
     var countryCode by remember { mutableStateOf("+1") }
     var phoneNumber by remember { mutableStateOf("") }
     var reverse by remember { mutableStateOf(false) }
-
+    val context = LocalContext.current
     Card(
         modifier = modifier
             .fillMaxSize()
@@ -99,7 +101,9 @@ fun AuthScreen(modifier: Modifier = Modifier) {
                             reverse = false // Trigger forward animation
                             isRegisterView = true
                         },
-                        forgotPassword = { }
+                        forgotPassword = {
+                            openInBrowser(context, "http://caloriescalculatorkmm.com/forgotPassword")
+                        }
                     )
                 }
             }
