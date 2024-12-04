@@ -1,10 +1,7 @@
 package org.carlosjimz87.caloriescalculatorkmm.composables
 
-import android.util.Log
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -49,7 +46,6 @@ fun PhoneEditor(
         ) {
             // Country Code Input
             CustomOutlinedTextField(
-                height = height,
                 value = countryCode,
                 readOnly = true,
                 onValueChange = {},
@@ -78,7 +74,6 @@ fun PhoneEditor(
 
         // Phone Number Input
         CustomOutlinedTextField(
-            height = height,
             value = phoneNumber,
             onValueChange = onPhoneNumberChange,
             label = "Phone",
