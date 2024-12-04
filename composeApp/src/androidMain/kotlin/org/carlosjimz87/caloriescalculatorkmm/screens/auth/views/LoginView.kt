@@ -21,8 +21,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.carlosjimz87.caloriescalculatorkmm.composables.CustomOutlinedTextField
 import org.carlosjimz87.caloriescalculatorkmm.composables.DotsIndicator
+import org.carlosjimz87.caloriescalculatorkmm.composables.EmailField
 import org.carlosjimz87.caloriescalculatorkmm.composables.OutlinedCustomButton
 import org.carlosjimz87.caloriescalculatorkmm.theme.Green
+import org.carlosjimz87.caloriescalculatorkmm.validators.validateEmail
+import org.carlosjimz87.caloriescalculatorkmm.validators.validatePassword
 
 @Composable
 fun LoginView(onBack: () -> Unit, forgotPassword: () -> Unit) {
@@ -70,9 +73,8 @@ fun LoginView(onBack: () -> Unit, forgotPassword: () -> Unit) {
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             // Form Section
-
-            CustomOutlinedTextField(value = email, onValueChange = {email = it}, label = "Email")
-            PasswordTextField(value = pass, onValueChange = {pass = it}, label = "Password")
+            EmailField(email = email, onEmailChange = {email = it}, emailError = validateEmail(email))
+            PasswordTextField(value = pass, onPasswordChange = {pass = it}, passError = validatePassword(pass))
 
             Text(
                 text = "Forgot your password?",

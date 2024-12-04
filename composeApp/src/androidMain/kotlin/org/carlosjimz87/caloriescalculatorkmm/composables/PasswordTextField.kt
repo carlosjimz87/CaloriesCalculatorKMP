@@ -1,5 +1,7 @@
+import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -18,30 +20,36 @@ import org.carlosjimz87.caloriescalculatorkmm.theme.Green
 fun PasswordTextField(
     modifier: Modifier = Modifier,
     value: String,
-    onValueChange: (String) -> Unit,
     label: String = "Password",
-    primaryColor: Color = Green
+    primaryColor: Color = Green,
+    errorColor: Color = MaterialTheme.colorScheme.error,
+    onPasswordChange: (String) -> Unit,
+    passError: String?,
 ) {
     var isPasswordVisible by remember { mutableStateOf(false) }
+    Column {
 
-    CustomOutlinedTextField(
-        modifier = modifier,
-        value = value,
-        onValueChange = onValueChange,
-        label = label,
-        primaryColor = primaryColor,
-        trailingIcon = {
-            if(value.isNotBlank()){
-                IconButton(onClick = { isPasswordVisible = !isPasswordVisible }) {
-                    Icon(
-                        painter = if (isPasswordVisible) painterResource(id = R.drawable.ic_eye_off) else painterResource(id = R.drawable.ic_eye),
-                        contentDescription = null,
-                        tint = primaryColor
-                    )
+        CustomOutlinedTextField(
+            modifier = modifier,
+            value = value,
+            onValueChange = { onPasswordChange(it) },
+            error = passError,
+            label = label,
+            primaryColor = primaryColor,
+            trailingIcon = {
+                if(value.isNotBlank()){
+                    IconButton(onClick = { isPasswordVisible = !isPasswordVisible }) {
+                        Icon(
+                            painter = if (isPasswordVisible) painterResource(id = R.drawable.ic_eye_off) else painterResource(id = R.drawable.ic_eye),
+                            contentDescription = null,
+                            tint = if(passError!=null) errorColor else primaryColor
+                        )
+                    }
                 }
-            }
-        },
-        readOnly = false,
-        visualTransformation = if (isPasswordVisible) VisualTransformation.None else PasswordVisualTransformation()
-    )
+            },
+            readOnly = false,
+            visualTransformation = if (isPasswordVisible) VisualTransformation.None else PasswordVisualTransformation()
+        )
+    }
+
 }

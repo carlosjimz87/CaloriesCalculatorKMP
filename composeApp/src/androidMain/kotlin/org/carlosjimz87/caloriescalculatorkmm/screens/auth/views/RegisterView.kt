@@ -9,6 +9,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -16,10 +20,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.carlosjimz87.caloriescalculatorkmm.composables.CustomOutlinedTextField
 import org.carlosjimz87.caloriescalculatorkmm.composables.DotsIndicator
+import org.carlosjimz87.caloriescalculatorkmm.composables.EmailField
 import org.carlosjimz87.caloriescalculatorkmm.composables.OutlinedCustomButton
 import org.carlosjimz87.caloriescalculatorkmm.composables.PhoneEditor
 import org.carlosjimz87.caloriescalculatorkmm.theme.Green
 import org.carlosjimz87.caloriescalculatorkmm.utils.flagFromCountryCode
+import org.carlosjimz87.caloriescalculatorkmm.validators.validateEmail
 
 
 @Composable
@@ -30,6 +36,8 @@ fun RegisterView(
     onCountryCodeChange: (String) -> Unit = {},
     onPhoneNumberChange: (String) -> Unit = {}
 ) {
+    var email by remember { mutableStateOf("") } // State to manage the text
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -67,11 +75,7 @@ fun RegisterView(
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
 
-            CustomOutlinedTextField(
-                value = "",
-                onValueChange = {},
-                label = "Email"
-            )
+            EmailField(email = email, onEmailChange = {email = it}, emailError = validateEmail(email))
 
             PhoneEditor(
                 flagResource = flagFromCountryCode(countryCode), // Replace with your flag resource
