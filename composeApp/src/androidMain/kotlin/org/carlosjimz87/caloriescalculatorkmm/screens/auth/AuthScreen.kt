@@ -1,4 +1,4 @@
-package org.carlosjimz87.caloriescalculatorkmm.screens
+package org.carlosjimz87.caloriescalculatorkmm.screens.auth
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.slideInHorizontally
@@ -27,8 +27,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.carlosjimz87.caloriescalculatorkmm.animations.RotatingTableclothAnimation
-import org.carlosjimz87.caloriescalculatorkmm.composables.LoginView
-import org.carlosjimz87.caloriescalculatorkmm.composables.RegisterView
+import org.carlosjimz87.caloriescalculatorkmm.screens.auth.views.LoginView
+import org.carlosjimz87.caloriescalculatorkmm.screens.auth.views.RegisterView
 
 @Composable
 fun AuthScreen(modifier: Modifier = Modifier) {

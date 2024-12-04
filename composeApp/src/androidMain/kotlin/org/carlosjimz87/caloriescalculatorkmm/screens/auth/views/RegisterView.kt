@@ -1,4 +1,4 @@
-package org.carlosjimz87.caloriescalculatorkmm.composables
+package org.carlosjimz87.caloriescalculatorkmm.screens.auth.views
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -13,6 +13,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import org.carlosjimz87.caloriescalculatorkmm.composables.CustomOutlinedTextField
+import org.carlosjimz87.caloriescalculatorkmm.composables.DotsIndicator
+import org.carlosjimz87.caloriescalculatorkmm.composables.OutlinedCustomButton
+import org.carlosjimz87.caloriescalculatorkmm.composables.PhoneEditor
 import org.carlosjimz87.caloriescalculatorkmm.theme.Green
 import org.carlosjimz87.caloriescalculatorkmm.utils.flagFromCountryCode
 
@@ -79,7 +83,7 @@ fun RegisterView(
         Spacer(modifier = Modifier.weight(1f)) // Push button to the bottom
 
         // Action Button Section
-        OutlinedCustomButton(bottomMargin = 32.dp) {
+        OutlinedCustomButton {
             onNextStep()
         }
     }
