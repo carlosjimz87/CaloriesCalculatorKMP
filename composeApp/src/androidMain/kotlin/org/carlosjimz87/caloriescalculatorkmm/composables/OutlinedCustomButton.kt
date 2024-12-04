@@ -28,10 +28,10 @@ fun OutlinedCustomButton(
     borderColor: Color = Green,
     text : String = "Next step",
     textSize: TextUnit = 22.sp,
-    height : Dp = 75.dp,
+    height : Dp = 64.dp,
     topMargin: Dp = 0.dp,
     bottomMargin: Dp = 32.dp,
-    horizontalPadding : Dp = 32.dp,
+    horizontalPadding : Dp = 48.dp,
     onClick: () -> Unit
 ) {
 

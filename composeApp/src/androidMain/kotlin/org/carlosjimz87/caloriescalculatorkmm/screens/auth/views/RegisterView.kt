@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.carlosjimz87.caloriescalculatorkmm.composables.CustomOutlinedTextField
@@ -50,7 +51,8 @@ fun RegisterView(
 
                 Text(
                     text = "Create an account",
-                    style = MaterialTheme.typography.headlineMedium,
+                    style = MaterialTheme.typography.headlineSmall,
+                    fontWeight = FontWeight.Bold,
                     color = Green // Darker green
                 )
             }

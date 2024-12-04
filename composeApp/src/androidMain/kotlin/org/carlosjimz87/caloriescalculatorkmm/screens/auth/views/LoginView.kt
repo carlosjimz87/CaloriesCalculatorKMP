@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.carlosjimz87.caloriescalculatorkmm.composables.CustomOutlinedTextField
@@ -35,15 +36,18 @@ fun LoginView(onBack: () -> Unit, forgotPassword: () -> Unit) {
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.padding(bottom = 8.dp)
+                horizontalArrangement = Arrangement.End,
+                modifier = Modifier.padding(bottom = 8.dp).fillMaxWidth()
             ) {
-                DotsIndicator(totalDots = 2, selectedIndex = 0)
-
                 Text(
-                    text = "Wellcome back!",
-                    style = MaterialTheme.typography.headlineMedium,
+                    text = "Welcome back!",
+                    style = MaterialTheme.typography.headlineSmall,
+                    fontWeight = FontWeight.Bold,
                     color = Green // Darker green
                 )
+
+                DotsIndicator(totalDots = 2, selectedIndex = 0)
+
             }
 
         }

@@ -33,7 +33,7 @@ fun DotsIndicator(
                 Box(
                     modifier = Modifier
                         .padding(horizontal = 4.dp)
-                        .size(8.dp)
+                        .size(10.dp)
                         .clip(CircleShape)
                         .background(Green) // Filled with dark green color
                 )
