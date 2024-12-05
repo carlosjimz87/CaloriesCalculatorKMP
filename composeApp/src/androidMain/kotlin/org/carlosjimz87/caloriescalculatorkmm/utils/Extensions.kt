@@ -9,6 +9,7 @@ import android.net.Uri
 import android.widget.Toast
 import androidx.annotation.DrawableRes
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
@@ -17,6 +18,7 @@ import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import org.carlosjimz87.caloriescalculatorkmm.R
+import org.carlosjimz87.caloriescalculatorkmm.models.Position
 
 
 fun flagFromCountryCode(countryCode: String): Int {
@@ -81,4 +83,43 @@ fun Color.darken(factor: Float): Color {
         green = green * factor,
         blue = blue * factor
     )
+}
+
+fun Color.lighten(factor: Float): Color {
+    return copy(
+        red = red + (1 - red) * factor,
+        green = green + (1 - green) * factor,
+        blue = blue + (1 - blue) * factor
+    )
+}
+
+
+fun getShapeFromPosition(position: Position): RoundedCornerShape {
+
+    return when (position) {
+        Position.TOP -> {
+            RoundedCornerShape(
+                topStartPercent = 40,
+                topEndPercent = 10,
+                bottomStartPercent = 0,
+                bottomEndPercent = 40
+            )
+        }
+        Position.MIDDLE -> {
+            RoundedCornerShape(
+                topStartPercent = 0,
+                topEndPercent = 0,
+                bottomStartPercent = 0,
+                bottomEndPercent = 40
+            )
+        }
+        Position.BOTTOM -> {
+            RoundedCornerShape(
+                topStartPercent = 0,
+                topEndPercent = 0,
+                bottomStartPercent = 40,
+                bottomEndPercent = 40
+            )
+        }
+    }
 }

@@ -26,14 +26,17 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.carlosjimz87.caloriescalculatorkmm.models.CaloriesSection
+import org.carlosjimz87.caloriescalculatorkmm.models.Position
 import org.carlosjimz87.caloriescalculatorkmm.theme.Blue
-import org.carlosjimz87.caloriescalculatorkmm.theme.DarkGreen
+import org.carlosjimz87.caloriescalculatorkmm.theme.DarkGray
 import org.carlosjimz87.caloriescalculatorkmm.theme.Gray
 import org.carlosjimz87.caloriescalculatorkmm.theme.Green
+import org.carlosjimz87.caloriescalculatorkmm.theme.LightGray
 import org.carlosjimz87.caloriescalculatorkmm.theme.Orange
 import org.carlosjimz87.caloriescalculatorkmm.theme.White
 import org.carlosjimz87.caloriescalculatorkmm.theme.Yellow
-import org.carlosjimz87.caloriescalculatorkmm.utils.darken
+import org.carlosjimz87.caloriescalculatorkmm.utils.getShapeFromPosition
+import org.carlosjimz87.caloriescalculatorkmm.utils.lighten
 
 @Composable
 fun DiaryView() {
@@ -64,7 +67,7 @@ fun DiaryView() {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Text(
                         text = label,
-                        style = MaterialTheme.typography.headlineSmall,
+                        style = MaterialTheme.typography.bodyLarge,
                         color = Gray
                     )
                     Text(
@@ -86,12 +89,14 @@ fun DiaryView() {
             CaloriesSection("Other", "No products added yet", 0, Blue)
         )
 
-        meals.forEach { (title, description, calories, color) ->
+        meals.forEachIndexed { index, (title, description, calories, color) ->
             MealCard(
+                first = index == 0,
                 title = title,
                 description = description,
                 calories = calories,
-                color = color
+                color = color.lighten(0.2f),
+                position = Position.fromIndex(index, meals.size)
             )
         }
     }
@@ -102,8 +107,13 @@ fun MealCard(
     title: String,
     description: String,
     calories: Int,
-    color: Color
+    color: Color,
+    first: Boolean = false,
+    position : Position
 ) {
+
+    val shape = getShapeFromPosition(position)
+
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -112,12 +122,7 @@ fun MealCard(
     ) {
         Card(
             colors = CardDefaults.cardColors(containerColor = color),
-            shape = RoundedCornerShape(
-                topStartPercent = 20,
-                topEndPercent = 6,
-                bottomStartPercent = 0,
-                bottomEndPercent = 50
-            ),
+            shape = shape,
             modifier = Modifier
                 .fillMaxWidth()
         ) {
@@ -137,9 +142,9 @@ fun MealCard(
                     )
                     Text(
                         text = description,
-                        style = MaterialTheme.typography.bodyMedium,
+                        style = MaterialTheme.typography.bodyLarge,
                         fontWeight = FontWeight.Bold,
-                        color = DarkGreen
+                        color = DarkGray
                     )
                 }
                 Text(
@@ -152,22 +157,28 @@ fun MealCard(
 
         }
 
-//        Canvas(
-//            modifier = Modifier
-//                .align(Alignment.TopEnd)
-//                .size(40.dp)
-//        ) {
-//            val trianglePath = Path().apply {
-//                moveTo(size.width, 0f) // Top-right corner
-//                lineTo(size.width, size.height) // Bottom-right
-//                quadraticBezierTo(0f, size.height / 2, 0f, size.height) // Curved hypotenuse
-//                close()
-//            }
-//            drawPath(
-//                path = trianglePath,
-//                color = color.darken(0.2f) // Darker shade for decoration
-//            )
-//        }
+        if(!first) {
+            Canvas(
+                modifier = Modifier
+                    .align(Alignment.TopEnd)
+                    .size(50.dp) // Adjust size if needed
+            ) {
+                val trianglePath = Path().apply {
+                    moveTo(size.width, 1f) // Start at the top-right corner
+                    lineTo(size.width, (-70f)) // Bottom-right
+                    quadraticTo(
+                        size.width / 2 + 40 , size.height / 2 - 70, // Control point for the curve
+                        0f, 0f // End at the bottom-left
+                    )
+                    close()
+                }
+                drawPath(
+                    path = trianglePath,
+                    color = color // Darker shade for decoration
+                )
+            }
+        }
+
     }
 
 }
