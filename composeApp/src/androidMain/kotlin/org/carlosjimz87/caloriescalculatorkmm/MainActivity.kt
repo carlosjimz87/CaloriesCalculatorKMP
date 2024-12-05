@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import org.carlosjimz87.caloriescalculatorkmm.composables.MainScaffold
@@ -19,17 +19,18 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            var selectedTab by remember { mutableStateOf(BottomTab.Diary) }
+            var selectedTabIndex by remember { mutableIntStateOf(0) }
 
             MainScaffold(
-                selectedTab = selectedTab,
-                onTabSelected = { selectedTab = it }
+                selectedTabIndex = selectedTabIndex,
+                onTabSelectedIndex = { selectedTabIndex = it }
             ) {
-                when (selectedTab) {
+                when (BottomTab.entries[selectedTabIndex]) {
                     BottomTab.Diary -> DiaryView()
-                    BottomTab.Statistics -> StatsView() // Implement this
-                    BottomTab.Goals -> GoalsView() // Implement this
-                    BottomTab.Settings -> SettingsView() // Implement this
+                    BottomTab.Stats -> StatsView()
+                    BottomTab.Goals -> GoalsView()
+                    BottomTab.Preferences -> SettingsView()
+                    else -> throw IllegalStateException("Unknown tab selected")
                 }
             }
         }

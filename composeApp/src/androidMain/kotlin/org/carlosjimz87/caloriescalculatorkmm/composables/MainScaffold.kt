@@ -9,15 +9,15 @@ import org.carlosjimz87.caloriescalculatorkmm.models.BottomTab
 
 @Composable
 fun MainScaffold(
-    selectedTab: BottomTab,
-    onTabSelected: (BottomTab) -> Unit,
+    selectedTabIndex: Int,
+    onTabSelectedIndex: (Int) -> Unit,
     content: @Composable () -> Unit
 ) {
     Scaffold(
         bottomBar = {
-            BottomNavigationBar(
-                selectedTab = selectedTab,
-                onTabSelected = onTabSelected
+            CustomBottomNavigationBar(
+                selectedIndex = selectedTabIndex,
+                onItemSelected = onTabSelectedIndex
             )
         },
         content = { innerPadding ->

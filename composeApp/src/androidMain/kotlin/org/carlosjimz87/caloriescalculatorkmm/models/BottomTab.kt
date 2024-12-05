@@ -6,7 +6,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 
 enum class BottomTab(val title: String, val icon: ImageVector) {
     Diary("Diary", Icons.Filled.DateRange),
-    Statistics("Statistics", Icons.Filled.Star),
+    Stats("Stats", Icons.Filled.Star),
     Goals("Goals", Icons.Filled.Check),
-    Settings("Settings", Icons.Filled.Settings)
+    Preferences("Prefs", Icons.Filled.Settings)
 }
