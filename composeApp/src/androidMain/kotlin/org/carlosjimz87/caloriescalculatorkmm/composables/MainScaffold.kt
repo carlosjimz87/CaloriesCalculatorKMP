@@ -6,6 +6,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import org.carlosjimz87.caloriescalculatorkmm.models.BottomTab
+import org.carlosjimz87.caloriescalculatorkmm.theme.White
 
 @Composable
 fun MainScaffold(
@@ -14,6 +15,7 @@ fun MainScaffold(
     content: @Composable () -> Unit
 ) {
     Scaffold(
+        containerColor = White,
         bottomBar = {
             CustomBottomNavigationBar(
                 selectedIndex = selectedTabIndex,

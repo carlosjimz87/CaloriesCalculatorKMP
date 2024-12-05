@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -31,7 +30,6 @@ import org.carlosjimz87.caloriescalculatorkmm.theme.Blue
 import org.carlosjimz87.caloriescalculatorkmm.theme.DarkGray
 import org.carlosjimz87.caloriescalculatorkmm.theme.Gray
 import org.carlosjimz87.caloriescalculatorkmm.theme.Green
-import org.carlosjimz87.caloriescalculatorkmm.theme.LightGray
 import org.carlosjimz87.caloriescalculatorkmm.theme.Orange
 import org.carlosjimz87.caloriescalculatorkmm.theme.White
 import org.carlosjimz87.caloriescalculatorkmm.theme.Yellow
