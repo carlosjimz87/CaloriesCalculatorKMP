@@ -10,10 +10,12 @@ import android.widget.Toast
 import androidx.annotation.DrawableRes
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import org.carlosjimz87.caloriescalculatorkmm.R
 
 
@@ -66,4 +68,17 @@ fun openInBrowser(context: Context, url: String) {
             Toast.makeText(this, "Failed to open URL: ${e.message}", Toast.LENGTH_SHORT).show()
         }
     }
+}
+
+// Extension for Int to convert to percent
+val Int.percent: Dp
+    get() = (this * 0.01).dp
+
+// Extension to darken a color
+fun Color.darken(factor: Float): Color {
+    return copy(
+        red = red * factor,
+        green = green * factor,
+        blue = blue * factor
+    )
 }

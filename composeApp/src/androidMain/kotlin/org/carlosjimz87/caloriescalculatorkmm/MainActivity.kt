@@ -3,14 +3,35 @@ package org.carlosjimz87.caloriescalculatorkmm
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import org.carlosjimz87.caloriescalculatorkmm.screens.auth.AuthScreen
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import org.carlosjimz87.caloriescalculatorkmm.composables.MainScaffold
+import org.carlosjimz87.caloriescalculatorkmm.models.BottomTab
+import org.carlosjimz87.caloriescalculatorkmm.screens.dashboard.views.DiaryView
+import org.carlosjimz87.caloriescalculatorkmm.screens.dashboard.views.GoalsView
+import org.carlosjimz87.caloriescalculatorkmm.screens.dashboard.views.SettingsView
+import org.carlosjimz87.caloriescalculatorkmm.screens.dashboard.views.StatsView
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContent {
-            AuthScreen()
+            var selectedTab by remember { mutableStateOf(BottomTab.Diary) }
+
+            MainScaffold(
+                selectedTab = selectedTab,
+                onTabSelected = { selectedTab = it }
+            ) {
+                when (selectedTab) {
+                    BottomTab.Diary -> DiaryView()
+                    BottomTab.Statistics -> StatsView() // Implement this
+                    BottomTab.Goals -> GoalsView() // Implement this
+                    BottomTab.Settings -> SettingsView() // Implement this
+                }
+            }
         }
     }
 }
