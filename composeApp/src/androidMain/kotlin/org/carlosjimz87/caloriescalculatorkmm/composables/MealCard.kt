@@ -41,27 +41,14 @@ fun MealCard(
     calories: Int,
     color: Color,
     position: Position,
-    initialOffset: Float,
-    slideOffset: Float,
-    spreadProgress: Float,
-    spreadValue: Float,
 ) {
     val shape = getShapeFromPosition(position)
-
-    // Combined slide and spread offset
-    val offsetY = lerp(
-        start = initialOffset,
-        stop = index * spreadValue,
-        fraction = spreadProgress
-    )
-    val combinedOffsetY = slideOffset + offsetY
 
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 6.dp)
             .height(100.dp)
-            .offset(y = combinedOffsetY.dp)
     ) {
         Card(
             colors = CardDefaults.cardColors(containerColor = color),
@@ -133,10 +120,6 @@ private fun MealCardPreviewTop() {
         calories = 350,
         color = Green,
         position = Position.TOP,
-        initialOffset = 0f,
-        slideOffset = 0f,
-        spreadProgress = 0f,
-        spreadValue = 100f
     )
 }
 
@@ -150,10 +133,6 @@ private fun MealCardPreviewMiddle() {
         calories = 483,
         color = Yellow,
         position = Position.MIDDLE,
-        initialOffset = 0f,
-        slideOffset = 0f,
-        spreadProgress = 0f,
-        spreadValue = 100f
     )
 }
 
@@ -167,9 +146,5 @@ private fun MealCardPreviewBottom() {
         calories = 0,
         color = Blue,
         position = Position.BOTTOM,
-        initialOffset = 0f,
-        slideOffset = 0f,
-        spreadProgress = 0f,
-        spreadValue = 100f
     )
 }
