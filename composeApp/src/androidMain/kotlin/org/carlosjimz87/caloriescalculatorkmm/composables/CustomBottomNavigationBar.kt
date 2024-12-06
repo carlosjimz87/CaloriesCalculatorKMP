@@ -40,6 +40,7 @@ fun CustomBottomNavigationBar(
     val barHeight = 100.dp
     val itemWidth = 90.dp
     val itemHeight = 40.dp
+    val horizPadding = 16.dp
 
     // Animation Stats
     var startOffset by remember { mutableStateOf(screenHeight + barHeight) }
@@ -54,7 +55,7 @@ fun CustomBottomNavigationBar(
     )
 
     val navBarItemOffset by animateDpAsState(
-        targetValue = selectedIndex * screenWidth / BottomTab.entries.size,
+        targetValue = selectedIndex * (screenWidth - horizPadding*2) / BottomTab.entries.size,
         label = "NavBarItemOffset"
     )
 
@@ -78,6 +79,7 @@ fun CustomBottomNavigationBar(
                     .fillMaxWidth()
                     .height(barHeight)
                     .padding(top = 4.dp)
+                    .padding(horizontal = horizPadding),
             ) {
                 // Animated Background for Selected Tab
                 TabItemRoundShape(

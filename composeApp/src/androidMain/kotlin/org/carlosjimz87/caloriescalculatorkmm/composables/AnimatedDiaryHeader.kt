@@ -2,11 +2,9 @@ package org.carlosjimz87.caloriescalculatorkmm.composables
 
 
 import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.AnimationVector1D
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -51,25 +49,25 @@ fun AnimatedDiaryHeader(modifier: Modifier = Modifier, animated : Boolean = true
             style = MaterialTheme.typography.displayLarge,
             fontWeight = FontWeight.Bold,
             modifier = Modifier
-                .padding(bottom = 8.dp)
+                .padding(top = 16.dp, bottom = 8.dp)
         )
 
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
-            modifier = Modifier
+            modifier = Modifier.padding(horizontal = 4.dp)
                 .fillMaxWidth()
-                .padding(horizontal = 4.dp)
         ) {
             caloriesList.forEach { (label, value) ->
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Column(horizontalAlignment = Alignment.Start) {
                     Text(
                         text = label,
-                        style = MaterialTheme.typography.headlineSmall,
+                        style = MaterialTheme.typography.bodyLarge,
+                        fontWeight = FontWeight.Bold,
                         color = Gray
                     )
                     Text(
                         text = value,
-                        style = MaterialTheme.typography.bodyMedium,
+                        style = MaterialTheme.typography.bodyLarge,
                         fontWeight = FontWeight.Bold
                     )
                 }
