@@ -35,17 +35,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
-import org.carlosjimz87.caloriescalculatorkmm.models.CaloriesSection
+import org.carlosjimz87.caloriescalculatorkmm.Constants.caloriesList
+import org.carlosjimz87.caloriescalculatorkmm.Constants.meals
 import org.carlosjimz87.caloriescalculatorkmm.models.Position
-import org.carlosjimz87.caloriescalculatorkmm.theme.Blue
 import org.carlosjimz87.caloriescalculatorkmm.theme.DarkGray
 import org.carlosjimz87.caloriescalculatorkmm.theme.Gray
-import org.carlosjimz87.caloriescalculatorkmm.theme.Green
-import org.carlosjimz87.caloriescalculatorkmm.theme.Orange
 import org.carlosjimz87.caloriescalculatorkmm.theme.White
-import org.carlosjimz87.caloriescalculatorkmm.theme.Yellow
 import org.carlosjimz87.caloriescalculatorkmm.utils.getShapeFromPosition
 import org.carlosjimz87.caloriescalculatorkmm.utils.lighten
+
 @Composable
 fun DiaryView() {
     val scope = rememberCoroutineScope()
@@ -110,12 +108,8 @@ fun DiaryView() {
                 .offset(y = headerSlideOffset.value.dp)
                 .alpha(headerAlpha.value)
         ) {
-            listOf(
-                "Fats" to "31g",
-                "Carb." to "66g",
-                "Proteins" to "32g",
-                "Calories" to "900kcal"
-            ).forEach { (label, value) ->
+
+            caloriesList.forEach { (label, value) ->
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Text(
                         text = label,
@@ -134,12 +128,6 @@ fun DiaryView() {
         Spacer(modifier = Modifier.height(16.dp))
 
         // Meal Cards with animations
-        val meals = listOf(
-            CaloriesSection("Breakfast", "Oatmeal with fruits and nuts", 450, Green),
-            CaloriesSection("Lunch", "Chops with potatoes", 384, Yellow),
-            CaloriesSection("Dinner", "No products added yet", 0, Orange),
-            CaloriesSection("Other", "No products added yet", 0, Blue)
-        )
 
         meals.forEachIndexed { index, (title, description, calories, color) ->
             MealCard(
