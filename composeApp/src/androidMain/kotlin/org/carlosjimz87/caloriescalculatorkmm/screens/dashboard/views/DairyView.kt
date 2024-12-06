@@ -59,7 +59,7 @@ fun DiaryView() {
         AnimatedDiaryHeader(headerSlideOffset, headerAlpha)
 
         // Meal Cards List
-        AnimatedMealCardsList(meals = meals)
+        AnimatedMealCardsList(meals = meals, headerSlideOffset = headerSlideOffset, headerAlpha = headerAlpha)
     }
 }
 
