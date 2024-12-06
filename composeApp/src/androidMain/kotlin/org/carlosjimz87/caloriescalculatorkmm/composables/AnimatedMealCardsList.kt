@@ -1,18 +1,14 @@
 package org.carlosjimz87.caloriescalculatorkmm.composables
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.AnimationVector1D
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -21,7 +17,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.carlosjimz87.caloriescalculatorkmm.models.CaloriesSection
@@ -31,14 +26,11 @@ import org.carlosjimz87.caloriescalculatorkmm.theme.Green
 import org.carlosjimz87.caloriescalculatorkmm.theme.Orange
 import org.carlosjimz87.caloriescalculatorkmm.theme.White
 import org.carlosjimz87.caloriescalculatorkmm.theme.Yellow
-import org.carlosjimz87.caloriescalculatorkmm.utils.lighten
 
 @Composable
 fun AnimatedMealCardsList(
     meals: List<CaloriesSection>,
     animated: Boolean = true,
-    headerSlideOffset: Animatable<Float, AnimationVector1D> = Animatable(-100f),
-    headerAlpha: Animatable<Float, AnimationVector1D> = Animatable(0f)
 ) {
     val visibilityStates = remember { mutableStateListOf(*Array(meals.size) { false }) }
 
@@ -54,23 +46,20 @@ fun AnimatedMealCardsList(
         contentPadding = PaddingValues(vertical = 2.dp),
         verticalArrangement = Arrangement.spacedBy(4.dp),
         modifier = Modifier.fillMaxSize()
-            .offset(y = if(animated) headerSlideOffset.value.dp else 0.dp)
-            .alpha(alpha = if(animated) headerAlpha.value else 1f)
     ) {
         itemsIndexed(meals) { index, meal ->
             AnimatedVisibility(
-                visible = if(animated) visibilityStates[index] else true, // Use dynamic visibility
+                visible = visibilityStates[index],
                 enter = slideInVertically(
-                    initialOffsetY = { it * (index + 1) } // Staggered slide-in effect
-                ) + fadeIn(animationSpec = tween(500, delayMillis = index * 100)),
-                exit = fadeOut()
+                    initialOffsetY = { -it * (index + 1) * 50 } // Adjusted for more pronounced stagger
+                ), // Staggered fade-in
             ) {
                 MealCard(
                     index = index,
                     title = meal.title,
                     description = meal.desc,
                     calories = meal.calories,
-                    color = meal.color.lighten(0.2f),
+                    color = meal.color,
                     position = Position.fromIndex(index, meals.size)
                 )
             }

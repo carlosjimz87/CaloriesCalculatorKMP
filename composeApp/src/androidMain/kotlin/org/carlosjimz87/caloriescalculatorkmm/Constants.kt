@@ -5,6 +5,7 @@ import org.carlosjimz87.caloriescalculatorkmm.theme.Blue
 import org.carlosjimz87.caloriescalculatorkmm.theme.Green
 import org.carlosjimz87.caloriescalculatorkmm.theme.Orange
 import org.carlosjimz87.caloriescalculatorkmm.theme.Yellow
+import org.carlosjimz87.caloriescalculatorkmm.utils.lighten
 
 object Constants {
     val caloriesList = listOf(
@@ -15,10 +16,10 @@ object Constants {
     )
 
     val meals = listOf(
-        CaloriesSection("Breakfast", "Oatmeal with fruits and nuts", 450, Green),
-        CaloriesSection("Lunch", "Chops with potatoes", 384, Yellow),
-        CaloriesSection("Dinner", "No products added yet", 0, Orange),
-        CaloriesSection("Other", "No products added yet", 0, Blue)
+        CaloriesSection("Breakfast", "Oatmeal with fruits and nuts", 450, Green.lighten(0.2f)),
+        CaloriesSection("Lunch", "Chops with potatoes", 384, Yellow.lighten(0.2f)),
+        CaloriesSection("Dinner", "No products added yet", 0, Orange.lighten(0.2f)),
+        CaloriesSection("Other", "No products added yet", 0, Blue.lighten(0.2f))
     )
 
     val countryList = mapOf(
