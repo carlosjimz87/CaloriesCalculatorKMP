@@ -33,8 +33,13 @@ import org.carlosjimz87.caloriescalculatorkmm.screens.auth.views.RegisterView
 import org.carlosjimz87.caloriescalculatorkmm.utils.openInBrowser
 
 @Composable
-fun AuthScreen(modifier: Modifier = Modifier) {
-    var isRegisterView by remember { mutableStateOf(true) }
+fun AuthScreen(
+    modifier: Modifier = Modifier,
+    isRegister: Boolean = true,
+    onSuccessLogin: () -> Unit = {},
+    onSuccessRegister: () -> Unit = {},
+) {
+    var isRegisterView by remember { mutableStateOf(isRegister) }
     var reverse by remember { mutableStateOf(false) }
     val context = LocalContext.current
     Card(
@@ -94,6 +99,9 @@ fun AuthScreen(modifier: Modifier = Modifier) {
                         onBack = {
                             reverse = false // Trigger forward animation
                             isRegisterView = true
+                        },
+                        onLogin = {
+                            onSuccessLogin()
                         },
                         forgotPassword = {
                             openInBrowser(context, "http://caloriescalculatorkmm.com/forgotPassword")

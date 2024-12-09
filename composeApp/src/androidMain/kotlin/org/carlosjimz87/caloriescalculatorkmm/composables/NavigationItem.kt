@@ -85,7 +85,7 @@ private fun NavigationItemPreview() {
             NavigationItem(item = BottomTab.Diary, isSelected = true, onClick = {})
             NavigationItem(item = BottomTab.Goals, isSelected = false, onClick = {})
             NavigationItem(item = BottomTab.Stats, isSelected = false, onClick = {})
-            NavigationItem(item = BottomTab.Preferences, isSelected = false, onClick = {})
+            NavigationItem(item = BottomTab.Prefs, isSelected = false, onClick = {})
         }
     }
 }

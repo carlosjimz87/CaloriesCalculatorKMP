@@ -10,10 +10,11 @@ import org.carlosjimz87.caloriescalculatorkmm.theme.White
 
 @Composable
 fun MainScaffold(
-    selectedTabIndex: Int,
+    tabSelected : BottomTab,
     onTabSelectedIndex: (Int) -> Unit,
     content: @Composable () -> Unit
 ) {
+    val selectedTabIndex = tabSelected.ordinal
     Scaffold(
         containerColor = White,
         bottomBar = {

@@ -5,6 +5,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 
 @Composable
-fun SettingsView() {
-    Text(text = "Settings View", modifier = Modifier)
+fun PreferencesView() {
+    Text(text = "Preferences View", modifier = Modifier)
 }

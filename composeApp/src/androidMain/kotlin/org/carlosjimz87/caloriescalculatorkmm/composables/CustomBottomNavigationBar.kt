@@ -34,18 +34,16 @@ fun CustomBottomNavigationBar(
     animated: Boolean = true,
     onItemSelected: (Int) -> Unit,
 ) {
-
     val screenHeight = LocalConfiguration.current.screenHeightDp.dp
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
     val barHeight = 100.dp
     val itemWidth = 90.dp
     val itemHeight = 40.dp
-    val horizPadding = 16.dp
+    val horizontalPadding = 16.dp
 
-    // Animation Stats
+    // Animation state
     var startOffset by remember { mutableStateOf(screenHeight + barHeight) }
     val animationDuration = 500
-
 
     // Animations
     val animatedOffset by animateDpAsState(
@@ -55,7 +53,7 @@ fun CustomBottomNavigationBar(
     )
 
     val navBarItemOffset by animateDpAsState(
-        targetValue = selectedIndex * (screenWidth - horizPadding*2) / BottomTab.entries.size,
+        targetValue = selectedIndex * (screenWidth - horizontalPadding * 2) / BottomTab.entries.size,
         label = "NavBarItemOffset"
     )
 
@@ -63,10 +61,11 @@ fun CustomBottomNavigationBar(
         startOffset = 0.dp
     }
 
+    // Render BottomAppBar
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .offset(y = if(animated) animatedOffset else 0.dp)
+            .offset(y = if (animated) animatedOffset else 0.dp)
     ) {
         BottomAppBar(
             containerColor = Green,
@@ -78,8 +77,7 @@ fun CustomBottomNavigationBar(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(barHeight)
-                    .padding(top = 4.dp)
-                    .padding(horizontal = horizPadding),
+                    .padding(horizontal = horizontalPadding, vertical = 8.dp),
             ) {
                 // Animated Background for Selected Tab
                 TabItemRoundShape(
@@ -90,7 +88,9 @@ fun CustomBottomNavigationBar(
 
                 // Navigation Items
                 Row(
-                    modifier = Modifier.fillMaxWidth().padding(top = 6.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 6.dp),
                     horizontalArrangement = Arrangement.SpaceEvenly,
                     verticalAlignment = Alignment.CenterVertically
                 ) {

@@ -27,7 +27,10 @@ import org.carlosjimz87.caloriescalculatorkmm.validators.validateEmail
 import org.carlosjimz87.caloriescalculatorkmm.validators.validatePassword
 
 @Composable
-fun LoginView(onBack: () -> Unit, forgotPassword: () -> Unit) {
+fun LoginView(
+    onBack: () -> Unit,
+    onLogin:() -> Unit,
+    forgotPassword: () -> Unit) {
 
     var email by remember { mutableStateOf("") } // State to manage the text
     var pass by remember { mutableStateOf("") } // State to manage the text
@@ -58,7 +61,9 @@ fun LoginView(onBack: () -> Unit, forgotPassword: () -> Unit) {
                     color = Green // Darker green
                 )
 
-                DotsIndicator(totalDots = 2, selectedIndex = 0)
+                DotsIndicator(totalDots = 2, selectedIndex = 0, modifier = Modifier.clickable {
+                    onBack()
+                })
 
             }
 
@@ -89,7 +94,7 @@ fun LoginView(onBack: () -> Unit, forgotPassword: () -> Unit) {
         Spacer(modifier = Modifier.weight(1f))
 
         FilledCustomButton {
-            onBack()
+            onLogin()
         }
     }
 }
@@ -97,5 +102,5 @@ fun LoginView(onBack: () -> Unit, forgotPassword: () -> Unit) {
 @Preview
 @Composable
 private fun LoginViewPreview() {
-    LoginView(onBack = {}, forgotPassword = {})
+    LoginView(onBack = {}, onLogin = {}, forgotPassword = {})
 }
