@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.navigation.compose.rememberNavController
+import org.carlosjimz87.caloriescalculatorkmm.composables.HumanFormWithThreshold
 import org.carlosjimz87.caloriescalculatorkmm.navigation.AppNavGraph
 
 class MainActivity : ComponentActivity() {
@@ -15,7 +16,8 @@ class MainActivity : ComponentActivity() {
             CaloriesCalculatorTheme {
                 val navController = rememberNavController()
                 CaloriesCalculatorTheme {
-                    AppNavGraph(navController = navController)
+                    //AppNavGraph(navController = navController)
+                    HumanFormWithThreshold()
                 }
             }
         }

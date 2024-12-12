@@ -1,8 +1,13 @@
 package org.carlosjimz87.caloriescalculatorkmm
 
+import android.hardware.lights.Light
 import org.carlosjimz87.caloriescalculatorkmm.models.CaloriesSection
 import org.carlosjimz87.caloriescalculatorkmm.theme.Blue
 import org.carlosjimz87.caloriescalculatorkmm.theme.Green
+import org.carlosjimz87.caloriescalculatorkmm.theme.LightBlue
+import org.carlosjimz87.caloriescalculatorkmm.theme.LightGreen
+import org.carlosjimz87.caloriescalculatorkmm.theme.LightOrange
+import org.carlosjimz87.caloriescalculatorkmm.theme.LightYellow
 import org.carlosjimz87.caloriescalculatorkmm.theme.Orange
 import org.carlosjimz87.caloriescalculatorkmm.theme.Yellow
 import org.carlosjimz87.caloriescalculatorkmm.utils.lighten
@@ -16,10 +21,10 @@ object Constants {
     )
 
     val meals = listOf(
-        CaloriesSection("Breakfast", "Oatmeal with fruits and nuts", 450, Green.lighten(0.2f)),
-        CaloriesSection("Lunch", "Chops with potatoes", 384, Yellow.lighten(0.2f)),
-        CaloriesSection("Dinner", "No products added yet", 0, Orange.lighten(0.2f)),
-        CaloriesSection("Other", "No products added yet", 0, Blue.lighten(0.2f))
+        CaloriesSection("Breakfast", "Oatmeal with fruits and nuts", 450, LightGreen),
+        CaloriesSection("Lunch", "Chops with potatoes", 384, LightYellow),
+        CaloriesSection("Dinner", "No products added yet", 0, LightOrange),
+        CaloriesSection("Other", "No products added yet", 0, LightBlue)
     )
 
     val countryList = mapOf(
