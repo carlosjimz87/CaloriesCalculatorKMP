@@ -28,6 +28,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.carlosjimz87.caloriescalculatorkmm.animations.RotatingTableclothAnimation
+import org.carlosjimz87.caloriescalculatorkmm.composables.BottomRoundedCornerShape
 import org.carlosjimz87.caloriescalculatorkmm.screens.auth.views.LoginView
 import org.carlosjimz87.caloriescalculatorkmm.screens.auth.views.RegisterView
 import org.carlosjimz87.caloriescalculatorkmm.utils.openInBrowser
@@ -57,12 +58,7 @@ fun AuthScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .fillMaxHeight(0.5f)
-                    .clip(
-                        RoundedCornerShape(
-                            bottomEnd = 48.dp,
-                            bottomStart = 48.dp
-                        )
-                    )
+                    .clip(BottomRoundedCornerShape())
             ) {
                 RotatingTableclothAnimation(
                     modifier = Modifier.fillMaxSize(),

@@ -32,49 +32,43 @@ fun TopWeightCard(
     weightChange: Int,
     daysAgo: Int,
     startingWeight: Int,
-    background : Color = White
 ) {
     Column(
         modifier = modifier.padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(4.dp)
     ) {
         Text(
-            modifier = modifier.background(background),
+            modifier = modifier,
             text = "CURRENT WEIGHT",
             style = MaterialTheme.typography.bodySmall.copy(color = Black),
             fontWeight = FontWeight.Bold
         )
         Row(
-            modifier = modifier.background(background),
             verticalAlignment = Alignment.Top,
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Text(
-                modifier = modifier.background(background),
                 text = "$currentWeight kg",
                 style = MaterialTheme.typography.displayLarge.copy(color = LightGreen),
                 fontWeight = FontWeight.Bold
             )
             Text(
-                modifier = modifier.padding(top = 4.dp).background(background),
+                modifier = Modifier.padding(top = 4.dp),
                 text = if (weightChange > 0) "+$weightChange kg" else "$weightChange kg",
                 style = MaterialTheme.typography.bodySmall.copy(fontSize = 14.sp, color = Gray)
             )
         }
         Text(
-            modifier = modifier.background(background),
             text = "last weigh $daysAgo days ago",
             style = MaterialTheme.typography.bodyLarge.copy(color = Gray),
             fontWeight = FontWeight.Bold
         )
         Text(
-            modifier = modifier.background(background),
             text = "STARTING",
             style = MaterialTheme.typography.labelSmall.copy(color = Gray),
             fontWeight = FontWeight.Bold
         )
         Row(
-            modifier = modifier.background(background),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {

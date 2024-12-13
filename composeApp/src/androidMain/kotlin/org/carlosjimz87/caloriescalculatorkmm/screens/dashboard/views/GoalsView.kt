@@ -9,8 +9,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -19,16 +17,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import org.carlosjimz87.caloriescalculatorkmm.composables.BottomRoundedCornerShape
 import org.carlosjimz87.caloriescalculatorkmm.composables.BottomWeightCard
 import org.carlosjimz87.caloriescalculatorkmm.composables.HumanFormWithThreshold
 import org.carlosjimz87.caloriescalculatorkmm.composables.TopWeightCard
+import org.carlosjimz87.caloriescalculatorkmm.models.GoalsModel
 import org.carlosjimz87.caloriescalculatorkmm.theme.LightGreen
 import org.carlosjimz87.caloriescalculatorkmm.theme.White
-import org.carlosjimz87.caloriescalculatorkmm.utils.percent
 
 @Composable
 fun GoalsView(
     modifier: Modifier = Modifier,
+    goalsModel: GoalsModel = GoalsModel(currentWeight = 85, weightChange = -2, daysAgo = 5, startingWeight = 87, desiredWeight = 82),
     animated : Boolean = true
 ) {
     // Animation state for sliding in
@@ -43,54 +43,57 @@ fun GoalsView(
             )
         )
     }
-    Box(modifier = modifier.fillMaxSize().background(
-        color = LightGreen,
-    ).padding(bottom = 32.dp)
+    Box(modifier = modifier
+        .fillMaxSize()
+        .background(
+            color = LightGreen,
+        )
+        .padding(bottom = 32.dp)
     ){
         Box(
             modifier = modifier
                 .fillMaxWidth()
-                .wrapContentHeight()
-                .offset { IntOffset(x = 0, y = if(animated) animatedOffset.value.toInt() else 0) } // Slide in animation
+                .offset {
+                    IntOffset(
+                        x = 0,
+                        y = if (animated) animatedOffset.value.toInt() else 0
+                    )
+                } // Slide in animation
                 .background(
                     color = White,
-                    shape = RoundedCornerShape(
-                        topStart = 0.dp,
-                        topEnd = 0.dp,
-                        bottomStart = 50.dp, // Rounded corners for the bottom
-                        bottomEnd = 50.dp
-                    )
+                    shape = BottomRoundedCornerShape()
                 )
                 .padding(16.dp)
         ) {
-            // Human form as the background
-            HumanFormWithThreshold(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 24.dp), // Add padding to position cards correctly
-                thresholdFraction = 0.5f
-            )
-
             // Overlay the top card
             TopWeightCard(
                 modifier = Modifier.fillMaxWidth(),
-                currentWeight = 85,
-                weightChange = -2,
-                daysAgo = 5,
-                startingWeight = 87
+                currentWeight = goalsModel.currentWeight,
+                weightChange = goalsModel.weightChange,
+                daysAgo = goalsModel.daysAgo,
+                startingWeight = goalsModel.startingWeight
             )
+
+            // Human form as the background
+            HumanFormWithThreshold(
+                modifier = Modifier
+                    .fillMaxWidth(), // Add padding to position cards correctly
+                thresholdFraction = 0.5f
+            )
+
 
             // Overlay the bottom card
             BottomWeightCard(
                 modifier = Modifier
                     .fillMaxWidth()
                     .align(Alignment.BottomCenter),
-                desiredWeight = 82
+                desiredWeight = goalsModel.desiredWeight
             )
         }
     }
 
 }
+
 
 @Preview
 @Composable

@@ -3,7 +3,9 @@ package org.carlosjimz87.caloriescalculatorkmm.composables
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -28,7 +30,7 @@ fun HumanFormWithThreshold(modifier: Modifier = Modifier, thresholdFraction: Flo
     val thresholdY by remember { mutableFloatStateOf(thresholdFraction) }
 
     Column(
-        modifier = modifier.fillMaxSize(),
+        modifier = modifier.fillMaxWidth().padding(vertical = 100.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Box(
