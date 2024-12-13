@@ -35,8 +35,7 @@ fun TopWeightCard(
     background : Color = White
 ) {
     Column(
-        modifier = modifier
-            .padding(16.dp),
+        modifier = modifier.padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(4.dp)
     ) {
         Text(

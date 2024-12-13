@@ -37,7 +37,7 @@ fun HumanFormWithThreshold(modifier: Modifier = Modifier, thresholdFraction: Flo
         ) {
             HumanFormCanvasLayer(thresholdY = thresholdY, modifier = Modifier
                 .fillMaxSize()
-                .padding(32.dp))
+                .padding(8.dp))
         }
     }
 }
@@ -99,7 +99,7 @@ fun generateHumanFormPoints(
 fun generateLinesPositionWithSeparation(
     baseY: Float = 1000f,
     separation: Float = 40f,
-    count: Int = 20,
+    count: Int = 15,
 ): List<Triple<Float, Color, Float>> {
 
     return (-count..count).map { index ->
@@ -115,7 +115,7 @@ fun generateLinesPositionWithSeparation(
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 private fun HumanFormWithThresholdPreview() {
     HumanFormWithThreshold()

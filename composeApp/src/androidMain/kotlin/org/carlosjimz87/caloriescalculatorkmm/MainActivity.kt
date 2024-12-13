@@ -17,8 +17,8 @@ class MainActivity : ComponentActivity() {
             CaloriesCalculatorTheme {
                 val navController = rememberNavController()
                 CaloriesCalculatorTheme {
-                    //AppNavGraph(navController = navController)
-                    GoalsView()
+                    AppNavGraph(navController = navController)
+                    //GoalsView()
                 }
             }
         }
