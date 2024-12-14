@@ -65,28 +65,27 @@ fun GoalsView(
                 )
                 .padding(16.dp)
         ) {
-            // Overlay the top card
+
+            // Human form as the background (first position)
+            HumanFormWithThreshold(
+                modifier = Modifier
+                    .fillMaxWidth().align(Alignment.Center), // Add padding to position cards correctly
+                thresholdFraction = 0.5f
+            )
+
+            // Overlay the top card  (second position)
             TopWeightCard(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.align(Alignment.TopStart),
                 currentWeight = goalsModel.currentWeight,
                 weightChange = goalsModel.weightChange,
                 daysAgo = goalsModel.daysAgo,
                 startingWeight = goalsModel.startingWeight
             )
 
-            // Human form as the background
-            HumanFormWithThreshold(
-                modifier = Modifier
-                    .fillMaxWidth(), // Add padding to position cards correctly
-                thresholdFraction = 0.5f
-            )
-
-
-            // Overlay the bottom card
+            // Overlay the bottom card (third position)
             BottomWeightCard(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .align(Alignment.BottomCenter),
+                    .align(Alignment.BottomStart),
                 desiredWeight = goalsModel.desiredWeight
             )
         }

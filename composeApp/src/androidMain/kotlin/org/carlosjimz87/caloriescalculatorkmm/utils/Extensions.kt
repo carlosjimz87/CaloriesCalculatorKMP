@@ -11,14 +11,19 @@ import androidx.annotation.DrawableRes
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import org.carlosjimz87.caloriescalculatorkmm.Constants
 import org.carlosjimz87.caloriescalculatorkmm.R
 import org.carlosjimz87.caloriescalculatorkmm.models.Position
+import org.carlosjimz87.caloriescalculatorkmm.theme.LightGreen
+import org.carlosjimz87.caloriescalculatorkmm.theme.LightYellow
+import kotlin.math.abs
 
 
 fun flagFromCountryCode(countryCode: String): Int {
@@ -120,6 +125,43 @@ fun getShapeFromPosition(position: Position): RoundedCornerShape {
                 bottomStartPercent = 40,
                 bottomEndPercent = 40
             )
+        }
+    }
+}
+
+
+data class HumanFormPoints(
+    val canvasWidth: Float = 1000f,
+    val canvasHeight: Float = 1000f,
+    val baseY: Float = 0.5f,
+    val heightPercentage: Float = 0.8f
+) {
+    fun create(): List<Offset> {
+        // Generate normalized points and scale to canvas size
+        return Constants.humanFormPoints.map { point ->
+            // Adjust Y-coordinate for base position and scale
+            val scaledY = ((point.y - 0.5f) * heightPercentage) + baseY
+            Offset(point.x * canvasWidth, scaledY * canvasHeight)
+        }
+    }
+}
+
+data class LinesPositionWithSeparation(
+    val baseY: Float = 1000f,
+    val separation: Float = 40f,
+    val count: Int = 10,
+) {
+    fun create(): List<Triple<Float, Color, Float>> {
+        return (-count..count).map { index ->
+            val yPosition = baseY + index * separation
+            val color = if (index < 0) LightGreen else LightYellow
+
+            // Calculate alpha with a quadratic falloff
+            val distanceFromCenter = abs(index) * separation
+            val normalizedDistance = (distanceFromCenter / (count * separation)).coerceIn(0f, 1f)
+            val alpha = (1f - normalizedDistance * normalizedDistance).coerceIn(0f, 1f)
+
+            Triple(yPosition, color.copy(alpha = alpha), 4f) // Include y-position, color with alpha, and stroke width
         }
     }
 }
